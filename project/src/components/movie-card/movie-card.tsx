@@ -1,3 +1,7 @@
+type MovieCardProps = {
+  dataMovies: Array<object>;
+};
+
 const creatMovies = (dataMovies: Array<object>) => {
   const components = [];
   for (const movie of dataMovies) {
@@ -17,14 +21,10 @@ const creatMovies = (dataMovies: Array<object>) => {
   return components;
 };
 
-type MovieCardProps = {
-  dataMovies: Array<object>;
-};
-
 function MovieCard ({dataMovies}: MovieCardProps): JSX.Element {
   return (
     <>
-      {creatMovies (dataMovies)};
+      {creatMovies (dataMovies)}
     </>
   );
 }

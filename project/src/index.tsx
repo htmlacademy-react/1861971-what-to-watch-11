@@ -25,6 +25,22 @@ const movieTitles = [
   'We need to talk about Kevin'
 ];
 
+const genres = [
+  'Comedy',
+  'Fiction',
+  'Drama',
+  'Action Movie',
+  'Adventure'
+];
+
+const years = [
+  2023,
+  2024,
+  2021,
+  2000,
+  2020
+];
+
 const creatMovies = () => {
   const movies = [];
   for (let i = 0; i < counter; i++) {
@@ -35,7 +51,18 @@ const creatMovies = () => {
     };
     movies.push (data);
   }
-  return movies;
+
+  const index = getRandomInteger (images.length - 1);
+
+  return {
+    movieCard: movies,
+    imageHeader: images[index],
+    movieDescription: {
+      genre: genres[index],
+      screeningYear: years[index],
+      movieTitle: movieTitles[index]
+    }
+  };
 };
 
 const root = ReactDOM.createRoot(
