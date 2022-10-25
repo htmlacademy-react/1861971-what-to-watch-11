@@ -1,4 +1,4 @@
-import MovieCard from '../../components/movie-card/movie-card';
+import MovieList from '../../components/movie-list/movie-list';
 import Image from '../../components/image/image';
 import FilmCardInfo from '../../components/film-card-info/film-card-info';
 
@@ -84,7 +84,7 @@ function MainPage ({dataMovies}: MainPageProps): JSX.Element {
             </li>
           </ul>
           <div className="catalog__films-list">
-            <MovieCard dataMovies = {movieCard} />
+            <MovieList dataMovies = {movieCard} />
           </div>
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
