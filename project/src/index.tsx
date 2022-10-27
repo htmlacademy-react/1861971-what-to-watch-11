@@ -41,21 +41,39 @@ const years = [
   2020
 ];
 
+type Data = {
+  index: string;
+  image: string;
+  movieTitle: string;
+};
+
+type DataMovies = {
+    imageHeader: string;
+    movieDescription: {
+      genre: string;
+      screeningYear: number;
+      movieTitle: string;
+    };
+};
+
 const creatMovies = () => {
-  const movies = [];
+  const movies: Array<Data> = [];
   for (let i = 0; i < counter; i++) {
     const number = getRandomInteger (images.length - 1);
-    const data = {
+    const data: Data = {
+      index: 'i',
       image: images[number],
       movieTitle: movieTitles[number]
     };
     movies.push (data);
   }
+  return movies;
+};
 
+const createMovieDescription = () => {
   const index = getRandomInteger (images.length - 1);
 
-  return {
-    movieCard: movies,
+  const dataMovie: DataMovies = {
     imageHeader: images[index],
     movieDescription: {
       genre: genres[index],
@@ -63,6 +81,7 @@ const creatMovies = () => {
       movieTitle: movieTitles[index]
     }
   };
+  return dataMovie;
 };
 
 const root = ReactDOM.createRoot(
@@ -71,6 +90,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App dataMovies = {creatMovies ()} />
+    <App dataMovies = {creatMovies ()} movieDescriptionAndTitle = {createMovieDescription()} />
   </React.StrictMode>,
 );

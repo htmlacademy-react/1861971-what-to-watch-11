@@ -2,20 +2,26 @@ import MovieList from '../../components/movie-list/movie-list';
 import Image from '../../components/image/image';
 import FilmCardInfo from '../../components/film-card-info/film-card-info';
 
+type Data = {
+  index: string;
+  image: string;
+  movieTitle: string;
+};
+
 type MainPageProps = {
-  dataMovies: {
-    movieCard: Array<object>;
+  dataMovies: Array<Data>;
+  movieDescriptionAndTitle:{
     imageHeader: string;
     movieDescription: {
       genre: string;
       screeningYear: number;
       movieTitle: string;
     };
-  } ;
+  };
 };
 
-function MainPage ({dataMovies}: MainPageProps): JSX.Element {
-  const {imageHeader, movieDescription, movieCard} = dataMovies;
+function MainPage ({dataMovies, movieDescriptionAndTitle}: MainPageProps): JSX.Element {
+  const {imageHeader, movieDescription,} = movieDescriptionAndTitle;
   return (
     <>
       <section className="film-card">
@@ -24,7 +30,7 @@ function MainPage ({dataMovies}: MainPageProps): JSX.Element {
 
         <header className="page-header film-card__head">
           <div className="logo">
-            <a className="logo__link">
+            <a href='*' className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
@@ -38,7 +44,7 @@ function MainPage ({dataMovies}: MainPageProps): JSX.Element {
               </div>
             </li>
             <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
+              <a href = '*' className="user-block__link">Sign out</a>
             </li>
           </ul>
         </header>
@@ -53,38 +59,38 @@ function MainPage ({dataMovies}: MainPageProps): JSX.Element {
 
           <ul className="catalog__genres-list">
             <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
+              <a href="*" className="catalog__genres-link">All genres</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
+              <a href="*" className="catalog__genres-link">Comedies</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
+              <a href="*" className="catalog__genres-link">Crime</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
+              <a href="*" className="catalog__genres-link">Documentary</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
+              <a href="*" className="catalog__genres-link">Dramas</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
+              <a href="*" className="catalog__genres-link">Horror</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
+              <a href="*" className="catalog__genres-link">Kids & Family</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
+              <a href="*" className="catalog__genres-link">Romance</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
+              <a href="*" className="catalog__genres-link">Sci-Fi</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
+              <a href="*" className="catalog__genres-link">Thrillers</a>
             </li>
           </ul>
           <div className="catalog__films-list">
-            <MovieList dataMovies = {movieCard} />
+            <MovieList dataMovies={dataMovies} />
           </div>
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
@@ -93,7 +99,7 @@ function MainPage ({dataMovies}: MainPageProps): JSX.Element {
 
         <footer className="page-footer">
           <div className="logo">
-            <a className="logo__link logo__link--light">
+            <a href='*' className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
