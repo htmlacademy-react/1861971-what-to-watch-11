@@ -1,4 +1,7 @@
+import PlayButton from '../../components/play-button/play-button';
+
 type FilmCardInfoProps = {
+  id: number;
   movieCover: string;
   movieDescription: {
     genre: string;
@@ -7,7 +10,7 @@ type FilmCardInfoProps = {
   };
 };
 
-function FilmCardInfo ({movieCover, movieDescription}: FilmCardInfoProps): JSX.Element {
+function FilmCardInfo ({movieCover, movieDescription, id}: FilmCardInfoProps): JSX.Element {
   const {genre, screeningYear, movieTitle} = movieDescription;
   return (
     <div className="film-card__info">
@@ -23,12 +26,7 @@ function FilmCardInfo ({movieCover, movieDescription}: FilmCardInfoProps): JSX.E
         </p>
 
         <div className="film-card__buttons">
-          <button className="btn btn--play film-card__button" type="button">
-            <svg viewBox="0 0 19 19" width="19" height="19">
-              <use xlinkHref="#play-s"></use>
-            </svg>
-            <span>Play</span>
-          </button>
+          <PlayButton id = {id} />
           <button className="btn btn--list film-card__button" type="button">
             <svg viewBox="0 0 19 20" width="19" height="20">
               <use xlinkHref="#add"></use>
