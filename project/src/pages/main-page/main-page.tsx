@@ -11,17 +11,19 @@ type Data = {
   movieTitle: string;
 };
 
-type MainPageProps = {
-  dataMovies: Array<Data>;
-  movieDescriptionAndTitle:{
-    id: number;
+type movieDescriptionAndTitle = {
+  id: number;
     imageHeader: string;
     movieDescription: {
       genre: string;
       screeningYear: number;
       movieTitle: string;
     };
-  };
+}
+
+type MainPageProps = {
+  dataMovies: Array<Data>;
+  movieDescriptionAndTitle: movieDescriptionAndTitle;
   authorizationStatus: string;
 };
 

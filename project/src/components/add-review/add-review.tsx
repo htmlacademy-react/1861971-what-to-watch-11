@@ -14,7 +14,14 @@ type AddReviewProps = {
 
 function AddReview ({dataMovies}: AddReviewProps): JSX.Element {
   const params = useParams();
-  const dataMovie = dataMovies.find((movie) => movie.index.toString() === params.id);
+  let dataMovie = dataMovies.find((movie) => movie.index.toString() === params.id);
+  if (!dataMovie) {
+    dataMovie = {
+      index: 0,
+      image: 'img/aviator.jpg',
+      movieTitle: 'Non-existent page. Go to main page. Please click Sign out'
+    };
+  }
   const {image, movieTitle} = dataMovie;
   return (
     <section className="film-card film-card--full">

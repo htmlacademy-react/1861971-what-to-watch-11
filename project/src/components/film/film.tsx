@@ -15,7 +15,14 @@ type FilmProps = {
 
 function Film ({dataMovies}: FilmProps): JSX.Element {
   const params = useParams();
-  const dataMovie = dataMovies.find((movie) => movie.index.toString() === params.id);
+  let dataMovie = dataMovies.find((movie) => movie.index.toString() === params.id);
+  if (!dataMovie) {
+    dataMovie = {
+      index: 0,
+      image: 'img/aviator.jpg',
+      movieTitle: 'Non-existent page. Go to main page. Please click Sign out'
+    };
+  }
   const {image, movieTitle, index} = dataMovie;
   const path = `${AppRoute.Films}${index.toString()}${AppRoute.Review}`;
   return dataMovie ? (
@@ -23,7 +30,7 @@ function Film ({dataMovies}: FilmProps): JSX.Element {
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src= {image} alt="The Grand Budapest Hotel" />
+            <img src= {image} alt= {movieTitle} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -75,7 +82,7 @@ function Film ({dataMovies}: FilmProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src= {image} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src= {image} alt= {movieTitle} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">

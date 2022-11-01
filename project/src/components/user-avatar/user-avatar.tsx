@@ -12,7 +12,7 @@ function UserAvatar(): JSX.Element {
         </li>
       </Link>
       <li className="user-block__item">
-        <a className="user-block__link">Sign Out</a>
+        <a href='*' className="user-block__link">Sign Out</a>
       </li>
     </>
   );

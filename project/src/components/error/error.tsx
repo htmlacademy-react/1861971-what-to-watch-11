@@ -2,7 +2,7 @@ function Error ():JSX.Element {
   return (
     <div className="film-card__hero">
       <div className="film-card__bg">
-        <img src = "img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" />
+        <img src = "img\error-screen.jpg" alt = "Error screen" />
       </div>
       <div className="sign-in__message">
         <p>Non-existent page.</p>
