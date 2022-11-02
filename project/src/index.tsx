@@ -42,12 +42,13 @@ const years = [
 ];
 
 type Data = {
-  index: string;
+  index: number;
   image: string;
   movieTitle: string;
 };
 
 type DataMovies = {
+    id: number;
     imageHeader: string;
     movieDescription: {
       genre: string;
@@ -61,7 +62,7 @@ const creatMovies = () => {
   for (let i = 0; i < counter; i++) {
     const number = getRandomInteger (images.length - 1);
     const data: Data = {
-      index: 'i',
+      index: i,
       image: images[number],
       movieTitle: movieTitles[number]
     };
@@ -74,6 +75,7 @@ const createMovieDescription = () => {
   const index = getRandomInteger (images.length - 1);
 
   const dataMovie: DataMovies = {
+    id: index,
     imageHeader: images[index],
     movieDescription: {
       genre: genres[index],

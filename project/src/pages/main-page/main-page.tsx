@@ -1,27 +1,34 @@
 import MovieList from '../../components/movie-list/movie-list';
 import Image from '../../components/image/image';
 import FilmCardInfo from '../../components/film-card-info/film-card-info';
+import UserAvatar from '../../components/user-avatar/user-avatar';
+import RegistrationEntry from '../../components/registration-entry/registration-entry';
+import { AuthorizationStatus } from '../../const/const';
 
 type Data = {
-  index: string;
+  index: number;
   image: string;
   movieTitle: string;
 };
 
-type MainPageProps = {
-  dataMovies: Array<Data>;
-  movieDescriptionAndTitle:{
+type movieDescriptionAndTitle = {
+  id: number;
     imageHeader: string;
     movieDescription: {
       genre: string;
       screeningYear: number;
       movieTitle: string;
     };
-  };
+}
+
+type MainPageProps = {
+  dataMovies: Array<Data>;
+  movieDescriptionAndTitle: movieDescriptionAndTitle;
+  authorizationStatus: string;
 };
 
-function MainPage ({dataMovies, movieDescriptionAndTitle}: MainPageProps): JSX.Element {
-  const {imageHeader, movieDescription,} = movieDescriptionAndTitle;
+function MainPage ({dataMovies, movieDescriptionAndTitle, authorizationStatus}: MainPageProps): JSX.Element {
+  const {imageHeader, movieDescription, id} = movieDescriptionAndTitle;
   return (
     <>
       <section className="film-card">
@@ -38,19 +45,12 @@ function MainPage ({dataMovies, movieDescriptionAndTitle}: MainPageProps): JSX.E
           </div>
 
           <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a href = '*' className="user-block__link">Sign out</a>
-            </li>
+            {authorizationStatus === AuthorizationStatus.Auth ? <UserAvatar /> : <RegistrationEntry />}
           </ul>
         </header>
 
         <div className="film-card__wrap">
-          <FilmCardInfo movieCover = {imageHeader} movieDescription = {movieDescription} />
+          <FilmCardInfo movieCover = {imageHeader} movieDescription = {movieDescription} id = {id}/>
         </div>
       </section>
       <div className="page-content">
