@@ -7,25 +7,12 @@ import AddReview from '../add-review/add-review';
 import Player from '../player/player';
 import Error from '../error/error';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
-
-type Data = {
-  index: number;
-  image: string;
-  movieTitle: string;
-};
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Data, DataMovies } from '../../types/movies';
 
 type AppProps = {
-  dataMovies:Array<Data>;
-  movieDescriptionAndTitle:{
-    id: number;
-    imageHeader: string;
-    movieDescription: {
-      genre: string;
-      screeningYear: number;
-      movieTitle: string;
-    };
-  };
+  dataMovies: Array<Data>;
+  movieDescriptionAndTitle: DataMovies;
 };
 
 function App({dataMovies, movieDescriptionAndTitle}: AppProps): JSX.Element {
@@ -54,7 +41,7 @@ function App({dataMovies, movieDescriptionAndTitle}: AppProps): JSX.Element {
             >
             </Route>
           </Route>
-          <Route path = {path2} element={<Player />}></Route>
+          <Route path = {path2} element={<Player dataMovies = {dataMovies} movieDescriptionAndTitle = {movieDescriptionAndTitle}/>}></Route>
           <Route path = {Mistake} element={<Error />}/>
         </Route>
       </Routes>

@@ -1,10 +1,37 @@
-function Player (): JSX.Element {
+import { useParams, Link } from 'react-router-dom';
+import { Data, DataMovies } from '../../types/movies';
+import { AppRoute } from '../../const/const';
+
+
+type PlayProps = {
+  dataMovies: Array<Data>;
+  movieDescriptionAndTitle: DataMovies;
+};
+
+
+function Player ({dataMovies, movieDescriptionAndTitle}: PlayProps): JSX.Element {
+  const params = useParams();
+  let dataMovie = dataMovies.find((movie) => movie.index.toString() === params.id);
+
+  const {imageHeader} = movieDescriptionAndTitle;
+
+  if (!dataMovie) {
+    dataMovie = {
+      index: '',
+      image: imageHeader,
+      movieTitle: '',
+      video: ''
+    };
+  }
+
+  const {image} = dataMovie;
+
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
-
-      <button type="button" className="player__exit">Exit</button>
-
+      <video src="#" className="player__video" poster= {image}></video>
+      <Link to={AppRoute.Root}>
+        < button type="button" className="player__exit">Exit</button>
+      </Link>
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">

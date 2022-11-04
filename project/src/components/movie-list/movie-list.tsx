@@ -1,10 +1,5 @@
 import MovieCard from '../../components/movie-card/movie-card';
-
-type Data = {
-  index: number;
-  image: string;
-  movieTitle: string;
-};
+import { Data } from '../../types/movies';
 
 type MovieListProps = {
   dataMovies: Array<Data>;
@@ -13,7 +8,7 @@ type MovieListProps = {
 function MovieList ({dataMovies}: MovieListProps): JSX.Element {
   return (
     <>
-      {dataMovies.map ((movie) => <MovieCard key = {movie.index.toString()} id = {movie.index.toString()} movie = {movie} />)}
+      {dataMovies.map ((movie) => <MovieCard key = {movie.index.toString()} movie = {movie} />)}
     </>
   );
 }

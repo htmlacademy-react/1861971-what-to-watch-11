@@ -4,28 +4,15 @@ import FilmCardInfo from '../../components/film-card-info/film-card-info';
 import UserAvatar from '../../components/user-avatar/user-avatar';
 import RegistrationEntry from '../../components/registration-entry/registration-entry';
 import { AuthorizationStatus } from '../../const/const';
+import { Data, DataMovies } from '../../types/movies';
 
-type Data = {
-  index: number;
-  image: string;
-  movieTitle: string;
-};
-
-type movieDescriptionAndTitle = {
-  id: number;
-    imageHeader: string;
-    movieDescription: {
-      genre: string;
-      screeningYear: number;
-      movieTitle: string;
-    };
-}
 
 type MainPageProps = {
   dataMovies: Array<Data>;
-  movieDescriptionAndTitle: movieDescriptionAndTitle;
+  movieDescriptionAndTitle: DataMovies;
   authorizationStatus: string;
 };
+
 
 function MainPage ({dataMovies, movieDescriptionAndTitle, authorizationStatus}: MainPageProps): JSX.Element {
   const {imageHeader, movieDescription, id} = movieDescriptionAndTitle;
@@ -115,5 +102,6 @@ function MainPage ({dataMovies, movieDescriptionAndTitle, authorizationStatus}: 
 
   );
 }
+
 
 export default MainPage;

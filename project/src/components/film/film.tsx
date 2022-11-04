@@ -2,25 +2,22 @@ import PlayButton from '../../components/play-button/play-button';
 import Error from '../error/error';
 import {useParams, Link} from 'react-router-dom';
 import { AppRoute } from '../../const/const';
+import { Data } from '../../types/movies';
 
-type Data = {
-  index: number;
-  image: string;
-  movieTitle: string;
-};
 
 type FilmProps = {
   dataMovies:Array<Data>;
-};
+  };
 
 function Film ({dataMovies}: FilmProps): JSX.Element {
   const params = useParams();
   let dataMovie = dataMovies.find((movie) => movie.index.toString() === params.id);
   if (!dataMovie) {
     dataMovie = {
-      index: 0,
+      index: '0',
       image: 'img/aviator.jpg',
-      movieTitle: 'Non-existent page. Go to main page. Please click Sign out'
+      movieTitle: 'Non-existent page. Go to main page. Please click Sign out',
+      video: ''
     };
   }
   const {image, movieTitle, index} = dataMovie;
