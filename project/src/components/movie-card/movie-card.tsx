@@ -1,4 +1,6 @@
+import {useState} from 'react';
 import {Link} from 'react-router-dom';
+import VideoPlayer from '../video-player/video-player';
 import { AppRoute } from '../../const/const';
 import { Data } from '../../types/movies';
 
@@ -9,35 +11,24 @@ type MovieCardProps = {
 
 
 function MovieCard ({movie}: MovieCardProps): JSX.Element {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+
   const {image, movieTitle, index, video} = movie;
+
+
+  const changeValuePlayer = () => {
+    setIsPlaying (!isPlaying);
+  };
+
+
   const path = `${AppRoute.Films}${index}`;
-
-
-  const getDataServer = () => {
-    fetch (video)
-      .then((response) => {
-        if (response.ok) {
-          return alert ('Запрос на сервер выполнен успешно.Для проверки откройте вкладку Network в инструментах разработчика.');
-        }
-        throw new Error ();
-      })
-      .catch((error) => alert ('Запрос на сервер не выполнен.Для проверки откройте вкладку Network в инструментах разработчика.'));
-  };
-
-
-  let timeoutId = 0;
-  const videoPlayback = () => {
-    timeoutId = setTimeout(() => getDataServer (), 2000);
-  };
-
-  const clearTimeout = () => {
-    clearTimeout(timeoutId);
-  };
 
   return (
     <article className="small-film-card catalog__films-card">
       <Link to = {path}>
-        <div className="small-film-card__image"onMouseOver={videoPlayback} onClick={clearTimeout}>
+        <div className="small-film-card__image"onMouseOver={changeValuePlayer} onMouseOut={changeValuePlayer}>
+          {isPlaying && <VideoPlayer src={video} />}
           <img src = {image} alt= {movieTitle} width="280" height="175" />
         </div>
       </Link>

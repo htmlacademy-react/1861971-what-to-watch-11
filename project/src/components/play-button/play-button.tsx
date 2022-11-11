@@ -11,7 +11,7 @@ function PlayButton({id}: PlayButtonProps): JSX.Element {
 
     <button className="btn btn--play film-card__button" type="button">
       <svg viewBox="0 0 19 19" width="19" height="19">
-        <Link to = {path}><use xlinkHref="#play-s"></use></Link>
+        <Link to = {path} ><use xlinkHref="#play-s"></use></Link>
       </svg>
       <span>Play</span>
     </button>

@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
+import AddReviwButton from '../add-review-button/add-review-button';
 
 
 type Data = {
@@ -15,11 +16,19 @@ type AddReviewProps = {
 
 
 function AddReview ({dataMovies}: AddReviewProps): JSX.Element {
+
+
   const params = useParams();
+
+
   const [addReviewForm, getFeedback] = useState ({
-    rating: 0,
+    rating: '',
     reviewText: ''
   });
+
+
+  const [meaning, setBoolean] = useState (true);
+
 
   const addReview = (evt: object) => {
     const {name, value} = evt.target;
@@ -27,12 +36,22 @@ function AddReview ({dataMovies}: AddReviewProps): JSX.Element {
   };
 
 
+  const changeBoolean = () => {
+    const {rating, reviewText} = addReviewForm;
+    setBoolean ((value) => {
+      rating !== '' && (reviewText.length >= 50 || reviewText.length <= 400) ?
+        value = false : value = true ;
+    });
+  };
+
+
   const updateStateHandle = () => {
     getFeedback ({
-      rating: 0,
+      rating: '',
       reviewText: ''
     });
   };
+
 
   let dataMovie = dataMovies.find((movie) => movie.index.toString() === params.id);
   if (!dataMovie) {
@@ -43,7 +62,9 @@ function AddReview ({dataMovies}: AddReviewProps): JSX.Element {
     };
   }
 
+
   const {image, movieTitle} = dataMovie;
+
 
   return (
     <section className="film-card film-card--full">
@@ -129,11 +150,11 @@ function AddReview ({dataMovies}: AddReviewProps): JSX.Element {
 
           <div className="add-review__text">
             <textarea className="add-review__textarea" name="reviewText" id="review-text"
-              onChange={addReview} placeholder="Review text"
-            >{addReviewForm.reviewText}
+              value={addReviewForm.reviewText} onChange={addReview} onKeyDown={changeBoolean} placeholder="Review text"
+            >
             </textarea>
             <div className="add-review__submit">
-              <button className="add-review__btn" type="submit" onClick={updateStateHandle}>Post</button>
+              <AddReviwButton cleaningInput = {updateStateHandle} detector = {meaning} />
             </div>
 
           </div>
@@ -143,5 +164,6 @@ function AddReview ({dataMovies}: AddReviewProps): JSX.Element {
     </section>
   );
 }
+
 
 export default AddReview;
