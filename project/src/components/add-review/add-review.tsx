@@ -1,76 +1,61 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
-import AddReviwButton from '../add-review-button/add-review-button';
-
-
-type Data = {
-  index: number;
-  image: string;
-  movieTitle: string;
-};
+import { Data } from '../../types/movies';
 
 type AddReviewProps = {
-  dataMovies:Array<Data>;
+  dataMovies: Array<Data>;
 };
 
-
-function AddReview ({dataMovies}: AddReviewProps): JSX.Element {
-
-
+function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
   const params = useParams();
+  const [addGrade, setGrade] = useState('');
+  const [addText, setText] = useState('');
 
-
-  const [addReviewForm, getFeedback] = useState ({
-    rating: '',
-    reviewText: ''
-  });
-
-
-  const [meaning, setBoolean] = useState (true);
-
-
-  const addReview = (evt: object) => {
-    const {name, value} = evt.target;
-    getFeedback ({...addReviewForm, [name]: value});
-  };
-
+  let meaning = true;
 
   const changeBoolean = () => {
-    const {rating, reviewText} = addReviewForm;
-    setBoolean ((value) => {
-      rating !== '' && (reviewText.length >= 50 || reviewText.length <= 400) ?
-        value = false : value = true ;
-    });
+    if (addGrade !== '' && (addText.length >= 50 || addText.length <= 400)) {
+      meaning = false;
+    } else {
+      meaning = true;
+    }
   };
 
+  const addNamber = ({ target }: React.MouseEvent<HTMLInputElement>) => {
+    const { value } = target;
+    setGrade(value);
+    changeBoolean();
+  };
+
+  const addReview = ({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = target;
+    setText(value);
+    changeBoolean();
+  };
 
   const updateStateHandle = () => {
-    getFeedback ({
-      rating: '',
-      reviewText: ''
-    });
+    setGrade('');
+    setText('');
+    meaning = true;
   };
 
+  const dataMovie = dataMovies.find(
+    (movie) => movie.index.toString() === params.id
+  );
 
-  let dataMovie = dataMovies.find((movie) => movie.index.toString() === params.id);
   if (!dataMovie) {
-    dataMovie = {
-      index: 0,
-      image: 'img/aviator.jpg',
-      movieTitle: 'Non-existent page. Go to main page. Please click Sign out'
-    };
+    document.location.href = `${AppRoute.Mistake}`;
+    return;
   }
 
-
-  const {image, movieTitle} = dataMovie;
-
+  const { image, movieTitle } = dataMovie;
 
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src= {image} alt= {movieTitle} />
+          <img src={image} alt={movieTitle} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -87,10 +72,14 @@ function AddReview ({dataMovies}: AddReviewProps): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">{movieTitle}</a>
+                <a href="film-page.html" className="breadcrumbs__link">
+                  {movieTitle}
+                </a>
               </li>
               <li className="breadcrumbs__item">
-                <a href="*" className="breadcrumbs__link">Add review</a>
+                <a href="*" className="breadcrumbs__link">
+                  Add review
+                </a>
               </li>
             </ul>
           </nav>
@@ -98,72 +87,168 @@ function AddReview ({dataMovies}: AddReviewProps): JSX.Element {
           <ul className="user-block">
             <li className="user-block__item">
               <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                <img
+                  src="img/avatar.jpg"
+                  alt="User avatar"
+                  width="63"
+                  height="63"
+                />
               </div>
             </li>
             <li className="user-block__item">
-              <Link to = {AppRoute.Root} className="user-block__link">Sign out</Link>
+              <Link to={AppRoute.Root} className="user-block__link">
+                Sign out
+              </Link>
             </li>
           </ul>
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src= {image} alt= {movieTitle} width="218" height="327" />
+          <img src={image} alt={movieTitle} width="218" height="327" />
         </div>
       </div>
 
       <div className="add-review">
         <form action="#" className="add-review__form">
           <div className="rating">
-            <div className="rating__stars">
-              <input className="rating__input" id="star-10" type="radio" onClick={addReview} name="rating" value="10" />
-              <label className="rating__label" htmlFor="star-10">Rating 10</label>
+            <div className="rating__stars" onClick={addNamber}>
+              <input
+                className="rating__input"
+                id="star-10"
+                type="radio"
+                name="rating"
+                value="10"
+              />
+              <label className="rating__label" htmlFor="star-10">
+                Rating 10
+              </label>
 
-              <input className="rating__input" id="star-9" type="radio" onClick={addReview} name="rating" value="9" />
-              <label className="rating__label" htmlFor="star-9">Rating 9</label>
+              <input
+                className="rating__input"
+                id="star-9"
+                type="radio"
+                name="rating"
+                value="9"
+              />
+              <label className="rating__label" htmlFor="star-9">
+                Rating 9
+              </label>
 
-              <input className="rating__input" id="star-8" type="radio" onClick={addReview} name="rating" value="8" />
-              <label className="rating__label" htmlFor="star-8">Rating 8</label>
+              <input
+                className="rating__input"
+                id="star-8"
+                type="radio"
+                name="rating"
+                value="8"
+              />
+              <label className="rating__label" htmlFor="star-8">
+                Rating 8
+              </label>
 
-              <input className="rating__input" id="star-7" type="radio" onClick={addReview} name="rating" value="7" />
-              <label className="rating__label" htmlFor="star-7">Rating 7</label>
+              <input
+                className="rating__input"
+                id="star-7"
+                type="radio"
+                name="rating"
+                value="7"
+              />
+              <label className="rating__label" htmlFor="star-7">
+                Rating 7
+              </label>
 
-              <input className="rating__input" id="star-6" type="radio" onClick={addReview} name="rating" value="6" />
-              <label className="rating__label" htmlFor="star-6">Rating 6</label>
+              <input
+                className="rating__input"
+                id="star-6"
+                type="radio"
+                name="rating"
+                value="6"
+              />
+              <label className="rating__label" htmlFor="star-6">
+                Rating 6
+              </label>
 
-              <input className="rating__input" id="star-5" type="radio" onClick={addReview} name="rating" value="5" />
-              <label className="rating__label" htmlFor="star-5">Rating 5</label>
+              <input
+                className="rating__input"
+                id="star-5"
+                type="radio"
+                name="rating"
+                value="5"
+              />
+              <label className="rating__label" htmlFor="star-5">
+                Rating 5
+              </label>
 
-              <input className="rating__input" id="star-4" type="radio" onClick={addReview} name="rating" value="4" />
-              <label className="rating__label" htmlFor="star-4">Rating 4</label>
+              <input
+                className="rating__input"
+                id="star-4"
+                type="radio"
+                name="rating"
+                value="4"
+              />
+              <label className="rating__label" htmlFor="star-4">
+                Rating 4
+              </label>
 
-              <input className="rating__input" id="star-3" type="radio" onClick={addReview} name="rating" value="3" />
-              <label className="rating__label" htmlFor="star-3">Rating 3</label>
+              <input
+                className="rating__input"
+                id="star-3"
+                type="radio"
+                name="rating"
+                value="3"
+              />
+              <label className="rating__label" htmlFor="star-3">
+                Rating 3
+              </label>
 
-              <input className="rating__input" id="star-2" type="radio" onClick={addReview} name="rating" value="2" />
-              <label className="rating__label" htmlFor="star-2">Rating 2</label>
+              <input
+                className="rating__input"
+                id="star-2"
+                type="radio"
+                name="rating"
+                value="2"
+              />
+              <label className="rating__label" htmlFor="star-2">
+                Rating 2
+              </label>
 
-              <input className="rating__input" id="star-1" type="radio" onClick={addReview} name="rating" value="1" />
-              <label className="rating__label" htmlFor="star-1">Rating 1</label>
+              <input
+                className="rating__input"
+                id="star-1"
+                type="radio"
+                name="rating"
+                value="1"
+              />
+              <label className="rating__label" htmlFor="star-1">
+                Rating 1
+              </label>
             </div>
           </div>
 
           <div className="add-review__text">
-            <textarea className="add-review__textarea" name="reviewText" id="review-text"
-              value={addReviewForm.reviewText} onChange={addReview} onKeyDown={changeBoolean} placeholder="Review text"
+            <textarea
+              className="add-review__textarea"
+              name="reviewText"
+              id="review-text"
+              value={addText}
+              onChange={addReview}
+              placeholder="Review text"
             >
             </textarea>
             <div className="add-review__submit">
-              <AddReviwButton cleaningInput = {updateStateHandle} detector = {meaning} />
+              <button
+                className="add-review__btn"
+                type="submit"
+                disabled={meaning}
+                onClick={updateStateHandle}
+              >
+                Post
+              </button>
             </div>
-
           </div>
         </form>
       </div>
-
     </section>
   );
 }
-
 
 export default AddReview;

@@ -5,13 +5,12 @@ export type Data = {
   video: string;
 };
 
-
 export type DataMovies = {
-    id: string;
-    imageHeader: string;
-    movieDescription: {
-      genre: string;
-      screeningYear: number;
-      movieTitle: string;
-    };
+  id: string;
+  imageHeader: string;
+  movieDescription: {
+    genre: string;
+    screeningYear: number;
+    movieTitle: string;
+  };
 };

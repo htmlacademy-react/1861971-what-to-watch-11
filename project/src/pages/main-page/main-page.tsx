@@ -6,25 +6,28 @@ import RegistrationEntry from '../../components/registration-entry/registration-
 import { AuthorizationStatus } from '../../const/const';
 import { Data, DataMovies } from '../../types/movies';
 
-
 type MainPageProps = {
   dataMovies: Array<Data>;
   movieDescriptionAndTitle: DataMovies;
   authorizationStatus: string;
 };
 
+function MainPage({
+  dataMovies,
+  movieDescriptionAndTitle,
+  authorizationStatus,
+}: MainPageProps): JSX.Element {
+  const { imageHeader, movieDescription, id } = movieDescriptionAndTitle;
 
-function MainPage ({dataMovies, movieDescriptionAndTitle, authorizationStatus}: MainPageProps): JSX.Element {
-  const {imageHeader, movieDescription, id} = movieDescriptionAndTitle;
   return (
     <>
       <section className="film-card">
-        <Image image = {imageHeader} />
+        <Image image={imageHeader} />
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
           <div className="logo">
-            <a href='*' className="logo__link">
+            <a href="*" className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
@@ -32,12 +35,20 @@ function MainPage ({dataMovies, movieDescriptionAndTitle, authorizationStatus}: 
           </div>
 
           <ul className="user-block">
-            {authorizationStatus === AuthorizationStatus.Auth ? <UserAvatar /> : <RegistrationEntry />}
+            {authorizationStatus === AuthorizationStatus.Auth ? (
+              <UserAvatar />
+            ) : (
+              <RegistrationEntry />
+            )}
           </ul>
         </header>
 
         <div className="film-card__wrap">
-          <FilmCardInfo movieCover = {imageHeader} movieDescription = {movieDescription} id = {id}/>
+          <FilmCardInfo
+            imageHeader={imageHeader}
+            movieDescription={movieDescription}
+            id={id}
+          />
         </div>
       </section>
       <div className="page-content">
@@ -46,47 +57,69 @@ function MainPage ({dataMovies, movieDescriptionAndTitle, authorizationStatus}: 
 
           <ul className="catalog__genres-list">
             <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="*" className="catalog__genres-link">All genres</a>
+              <a href="*" className="catalog__genres-link">
+                All genres
+              </a>
             </li>
             <li className="catalog__genres-item">
-              <a href="*" className="catalog__genres-link">Comedies</a>
+              <a href="*" className="catalog__genres-link">
+                Comedies
+              </a>
             </li>
             <li className="catalog__genres-item">
-              <a href="*" className="catalog__genres-link">Crime</a>
+              <a href="*" className="catalog__genres-link">
+                Crime
+              </a>
             </li>
             <li className="catalog__genres-item">
-              <a href="*" className="catalog__genres-link">Documentary</a>
+              <a href="*" className="catalog__genres-link">
+                Documentary
+              </a>
             </li>
             <li className="catalog__genres-item">
-              <a href="*" className="catalog__genres-link">Dramas</a>
+              <a href="*" className="catalog__genres-link">
+                Dramas
+              </a>
             </li>
             <li className="catalog__genres-item">
-              <a href="*" className="catalog__genres-link">Horror</a>
+              <a href="*" className="catalog__genres-link">
+                Horror
+              </a>
             </li>
             <li className="catalog__genres-item">
-              <a href="*" className="catalog__genres-link">Kids & Family</a>
+              <a href="*" className="catalog__genres-link">
+                Kids & Family
+              </a>
             </li>
             <li className="catalog__genres-item">
-              <a href="*" className="catalog__genres-link">Romance</a>
+              <a href="*" className="catalog__genres-link">
+                Romance
+              </a>
             </li>
             <li className="catalog__genres-item">
-              <a href="*" className="catalog__genres-link">Sci-Fi</a>
+              <a href="*" className="catalog__genres-link">
+                Sci-Fi
+              </a>
             </li>
             <li className="catalog__genres-item">
-              <a href="*" className="catalog__genres-link">Thrillers</a>
+              <a href="*" className="catalog__genres-link">
+                Thrillers
+              </a>
             </li>
           </ul>
           <div className="catalog__films-list">
             <MovieList dataMovies={dataMovies} />
           </div>
           <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
+            <button className="catalog__button" type="button">
+              Show more
+            </button>
           </div>
         </section>
 
         <footer className="page-footer">
           <div className="logo">
-            <a href='*' className="logo__link logo__link--light">
+            <a href="*" className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
@@ -99,9 +132,7 @@ function MainPage ({dataMovies, movieDescriptionAndTitle, authorizationStatus}: 
         </footer>
       </div>
     </>
-
   );
 }
-
 
 export default MainPage;

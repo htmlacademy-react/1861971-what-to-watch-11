@@ -1,42 +1,44 @@
 import { useParams, Link } from 'react-router-dom';
-import { Data, DataMovies } from '../../types/movies';
+import { Data } from '../../types/movies';
 import { AppRoute } from '../../const/const';
-
 
 type PlayProps = {
   dataMovies: Array<Data>;
-  movieDescriptionAndTitle: DataMovies;
 };
 
-
-function Player ({dataMovies, movieDescriptionAndTitle}: PlayProps): JSX.Element {
+function Player({ dataMovies }: PlayProps): JSX.Element {
   const params = useParams();
-  let dataMovie = dataMovies.find((movie) => movie.index.toString() === params.id);
-
-  const {imageHeader} = movieDescriptionAndTitle;
+  const dataMovie = dataMovies.find(
+    (movie) => movie.index.toString() === params.id
+  );
 
   if (!dataMovie) {
-    dataMovie = {
-      index: '',
-      image: imageHeader,
-      movieTitle: '',
-      video: ''
-    };
+    document.location.href = `${AppRoute.Mistake}`;
+    return;
   }
 
-  const {image} = dataMovie;
+  const { image } = dataMovie;
 
   return (
     <div className="player">
-      <video src="#" className="player__video" poster= {image}></video>
+      <video src="#" className="player__video" poster={image}></video>
       <Link to={AppRoute.Root}>
-        < button type="button" className="player__exit">Exit</button>
+        <button type="button" className="player__exit">
+          Exit
+        </button>
       </Link>
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
-            <progress className="player__progress" value="30" max="100"></progress>
-            <div className="player__toggler" style={{left: '30%'}}>Toggler</div>
+            <progress
+              className="player__progress"
+              value="30"
+              max="100"
+            >
+            </progress>
+            <div className="player__toggler" style={{ left: '30%' }}>
+              Toggler
+            </div>
           </div>
           <div className="player__time-value">1:30:29</div>
         </div>

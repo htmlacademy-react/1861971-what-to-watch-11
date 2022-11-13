@@ -5,10 +5,12 @@ type MovieListProps = {
   dataMovies: Array<Data>;
 };
 
-function MovieList ({dataMovies}: MovieListProps): JSX.Element {
+function MovieList({ dataMovies }: MovieListProps): JSX.Element {
   return (
     <>
-      {dataMovies.map ((movie) => <MovieCard key = {movie.index.toString()} movie = {movie} />)}
+      {dataMovies.map((movie) => (
+        <MovieCard key={movie.index.toString()} movie={movie} />
+      ))}
     </>
   );
 }
