@@ -1,16 +1,20 @@
 import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
 import PlayButton from '../../components/play-button/play-button';
-import { AppRoute } from '../../const/const';
-import { Data } from '../../types/movies';
+import TabList from '../tab-list/tab-list';
+import MovieList from '../movie-list/movie-list';
+import { AppRoute, AttributeValue, Tab } from '../../const/const';
+import { Movie } from '../../types/movies';
 
 type FilmProps = {
-  dataMovies: Array<Data>;
+  dataMovies: Array<Movie>;
 };
 
 function Film({ dataMovies }: FilmProps): JSX.Element {
+  const [value, setValue] = useState ('');
   const params = useParams();
   const dataMovie = dataMovies.find(
-    (movie) => movie.index.toString() === params.id
+    (movie) => movie.id.toString() === params.id
   );
 
   if (!dataMovie) {
@@ -18,15 +22,20 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
     return;
   }
 
-  const { image, movieTitle, index } = dataMovie;
-  const path = `${AppRoute.Films}${index.toString()}${AppRoute.Review}`;
+  const getTabTitles = ({ target }: React.MouseEvent<HTMLInputElement>) => {
+    const { name } = target;
+    setValue (name);
+  };
+
+  const { backgroundImage, name, released, posterImage, id, genre } = dataMovie;
+  const path = `${AppRoute.Films}${id.toString()}${AppRoute.Review}`;
 
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={image} alt={movieTitle} />
+            <img src={backgroundImage} alt={name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -61,14 +70,14 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{movieTitle}</h2>
+              <h2 className="film-card__title">{name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{genre}</span>
+                <span className="film-card__year">{released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <PlayButton id={index} />
+                <PlayButton id={id} />
                 <button
                   className="btn btn--list film-card__button"
                   type="button"
@@ -90,65 +99,30 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={image} alt={movieTitle} width="218" height="327" />
+              <img src={posterImage} alt={name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="*" className="film-nav__link">
+                <ul className="film-nav__list" onClick={getTabTitles}>
+                  <li className={`film-nav__item ${Tab[value] === 'Overview' ? AttributeValue.Active : ''}`} >
+                    <a className="film-nav__link" name="Overview">
                       Overview
                     </a>
                   </li>
-                  <li className="film-nav__item">
-                    <a href="*" className="film-nav__link">
+                  <li className={`film-nav__item ${Tab[value] === 'Details' ? AttributeValue.Active : ''}`} >
+                    <a className="film-nav__link" name="Details">
                       Details
                     </a>
                   </li>
-                  <li className="film-nav__item">
-                    <a href="*" className="film-nav__link">
+                  <li className={`film-nav__item ${Tab[value] === 'Reviews' ? AttributeValue.Active : ''}`}>
+                    <a className="film-nav__link" name="Reviews">
                       Reviews
                     </a>
                   </li>
                 </ul>
               </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">8,9</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">240 ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>
-                  In the 1930s, the Grand Budapest Hotel is a popular European
-                  ski resort, presided over by concierge Gustave H. (Ralph
-                  Fiennes). Zero, a junior lobby boy, becomes Gustave is friend
-                  and protege.
-                </p>
-
-                <p>
-                  Gustave prides himself on providing first-className service to
-                  the hotel is guests, including satisfying the sexual needs of
-                  the many elderly women who stay there. When one of Gustave is
-                  lovers dies mysteriously, Gustave finds himself the recipient
-                  of a priceless painting and the chief suspect in her murder.
-                </p>
-
-                <p className="film-card__director">
-                  <strong>Director: Wes Anderson</strong>
-                </p>
-
-                <p className="film-card__starring">
-                  <strong>
-                    Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe
-                    and other
-                  </strong>
-                </p>
-              </div>
+              <TabList type={Tab[value]} movie = {dataMovie} />
             </div>
           </div>
         </div>
@@ -159,69 +133,7 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img
-                  src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-                  alt="Fantastic Beasts: The Crimes of Grindelwald"
-                  width="280"
-                  height="175"
-                />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="*">
-                  Fantastic Beasts: The Crimes of Grindelwald
-                </a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img
-                  src="img/bohemian-rhapsody.jpg"
-                  alt="Bohemian Rhapsody"
-                  width="280"
-                  height="175"
-                />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Bohemian Rhapsody
-                </a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img
-                  src="img/macbeth.jpg"
-                  alt="Macbeth"
-                  width="280"
-                  height="175"
-                />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Macbeth
-                </a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img
-                  src="img/aviator.jpg"
-                  alt="Aviator"
-                  width="280"
-                  height="175"
-                />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Aviator
-                </a>
-              </h3>
-            </article>
+            <MovieList dataMovies={dataMovies} genre={genre} counterNumber={0} />
           </div>
         </section>
 

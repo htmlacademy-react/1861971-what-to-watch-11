@@ -7,19 +7,21 @@ import PrivateRoute from '../private-route/private-route';
 import AddReview from '../add-review/add-review';
 import Player from '../player/player';
 import Error from '../error/error';
-import { AppRoute, AuthorizationStatus } from '../../const/const';
-import { Data, DataMovies } from '../../types/movies';
+import { AppRoute } from '../../const/const';
+import { DataMovies } from '../../types/movies';
+import { useAppSelector } from '../../hooks/index';
 
 type AppProps = {
-  dataMovies: Array<Data>;
   movieDescriptionAndTitle: DataMovies;
 };
 
-function App({ dataMovies, movieDescriptionAndTitle }: AppProps): JSX.Element {
+function App({ movieDescriptionAndTitle }: AppProps): JSX.Element {
+  const films = useAppSelector((state) => state);
+  const { movies, authorizationStatus } = films;
+
   const { Root, Login, List, Films, Review, View, Mistake } = AppRoute;
   const path1 = `:id${Review}`;
   const path2 = `${View}:id`;
-  const status = AuthorizationStatus.Auth;
 
   return (
     <BrowserRouter>
@@ -29,9 +31,8 @@ function App({ dataMovies, movieDescriptionAndTitle }: AppProps): JSX.Element {
             index
             element={
               <MainPage
-                dataMovies={dataMovies}
                 movieDescriptionAndTitle={movieDescriptionAndTitle}
-                authorizationStatus={status}
+                authorizationStatus={authorizationStatus}
               />
             }
           >
@@ -39,16 +40,12 @@ function App({ dataMovies, movieDescriptionAndTitle }: AppProps): JSX.Element {
           <Route path={Login} element={<SignIn />}></Route>
           <Route path={List} element={<MyList />}></Route>
           <Route path={Films}>
-            <Route
-              path=":id"
-              element={<Film dataMovies={dataMovies} />}
-            >
-            </Route>
+            <Route path=":id" element={<Film dataMovies={movies} />}></Route>
             <Route
               path={path1}
               element={
-                <PrivateRoute authorizationStatus={status}>
-                  <AddReview dataMovies={dataMovies} />
+                <PrivateRoute authorizationStatus={authorizationStatus}>
+                  <AddReview dataMovies={movies} />
                 </PrivateRoute>
               }
             >
@@ -56,7 +53,11 @@ function App({ dataMovies, movieDescriptionAndTitle }: AppProps): JSX.Element {
           </Route>
           <Route
             path={path2}
-            element={<Player dataMovies={dataMovies} />}
+            element={
+              <Player
+                dataMovies={movies}
+              />
+            }
           >
           </Route>
           <Route path={Mistake} element={<Error />} />

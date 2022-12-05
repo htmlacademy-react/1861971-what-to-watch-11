@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
 
 type PlayButtonProps = {
-  id: string;
+  id: number;
 };
 
 function PlayButton({ id }: PlayButtonProps): JSX.Element {

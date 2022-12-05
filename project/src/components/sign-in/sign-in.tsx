@@ -1,4 +1,39 @@
+import { useRef, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/index';
+import { AuthData } from '../../const/const';
+import { loginAction } from '../../store/api-actions';
+import { AppRoute, AuthorizationStatus } from '../../const/const';
+
 function SignIn(): JSX.Element {
+
+  const emailAddressRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  const dispatch = useAppDispatch();
+  const authorizationValue = useAppSelector((state) => state);
+  const { authorizationStatus } = authorizationValue;
+  const navigate = useNavigate();
+
+  const onSubmit = (authData: AuthData) => {
+    dispatch(loginAction(authData));
+  };
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (emailAddressRef.current !== null && passwordRef.current !== null) {
+      onSubmit({
+        login: emailAddressRef.current.value,
+        password: passwordRef.current.value,
+      });
+    }
+  };
+
+  if(authorizationStatus === AuthorizationStatus.Auth) {
+    navigate(AppRoute.Root);
+  }
+
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -14,10 +49,11 @@ function SignIn(): JSX.Element {
       </header>
 
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form">
+        <form action="#" className="sign-in__form" onSubmit={handleSubmit}>
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input
+                ref={emailAddressRef}
                 className="sign-in__input"
                 type="email"
                 placeholder="Email address"
@@ -33,6 +69,7 @@ function SignIn(): JSX.Element {
             </div>
             <div className="sign-in__field">
               <input
+                ref={passwordRef}
                 className="sign-in__input"
                 type="password"
                 placeholder="Password"

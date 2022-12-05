@@ -4,9 +4,9 @@ import { DataMovies } from '../../types/movies';
 type FilmCardInfoProps = DataMovies;
 
 function FilmCardInfo({
-  imageHeader,
+  image,
   movieDescription,
-  id,
+  index,
 }: FilmCardInfoProps): JSX.Element {
   const { genre, screeningYear, movieTitle } = movieDescription;
 
@@ -14,7 +14,7 @@ function FilmCardInfo({
     <div className="film-card__info">
       <div className="film-card__poster">
         <img
-          src={imageHeader}
+          src={image}
           alt="The Grand Budapest Hotel poster"
           width="218"
           height="327"
@@ -29,7 +29,7 @@ function FilmCardInfo({
         </p>
 
         <div className="film-card__buttons">
-          <PlayButton id={id} />
+          <PlayButton id={index} />
           <button className="btn btn--list film-card__button" type="button">
             <svg viewBox="0 0 19 20" width="19" height="20">
               <use xlinkHref="#add"></use>

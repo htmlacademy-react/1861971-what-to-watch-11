@@ -1,16 +1,40 @@
-export type Data = {
+export type DataMovies = {
   index: string;
   image: string;
-  movieTitle: string;
-  video: string;
-};
-
-export type DataMovies = {
-  id: string;
-  imageHeader: string;
   movieDescription: {
     genre: string;
     screeningYear: number;
     movieTitle: string;
   };
+};
+
+export type Movie = {
+id: number;
+name: string;
+posterImage: string;
+previewImage: string;
+backgroundImage: string;
+backgroundColor: string;
+videoLink: string;
+previewVideoLink: string;
+description: string;
+rating: number;
+scoresCount: number;
+director: string;
+starring: [string];
+runTime: number;
+genre: string;
+released: number;
+isFavorite: boolean;
+};
+
+export type Comment = {
+  comment: string;
+  date: string;
+  id: number;
+  rating: number;
+  user: {
+  id: number;
+  name: string;
+ };
 };

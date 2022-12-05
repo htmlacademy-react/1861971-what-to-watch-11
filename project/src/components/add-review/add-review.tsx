@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
-import { Data } from '../../types/movies';
+import { Movie } from '../../types/movies';
 
 type AddReviewProps = {
-  dataMovies: Array<Data>;
+  dataMovies: Array<Movie>;
 };
 
 function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
@@ -41,7 +41,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
   };
 
   const dataMovie = dataMovies.find(
-    (movie) => movie.index.toString() === params.id
+    (movie) => movie.id.toString() === params.id
   );
 
   if (!dataMovie) {
@@ -49,13 +49,13 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
     return;
   }
 
-  const { image, movieTitle } = dataMovie;
+  const { backgroundImage, posterImage, name } = dataMovie;
 
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={image} alt={movieTitle} />
+          <img src={backgroundImage} alt={name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -73,7 +73,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
                 <a href="film-page.html" className="breadcrumbs__link">
-                  {movieTitle}
+                  {name}
                 </a>
               </li>
               <li className="breadcrumbs__item">
@@ -104,7 +104,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={image} alt={movieTitle} width="218" height="327" />
+          <img src={posterImage} alt={name} width="218" height="327" />
         </div>
       </div>
 

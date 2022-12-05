@@ -17,7 +17,7 @@ const movieTitles = [
   'We need to talk about Kevin',
 ];
 
-const genres = ['Comedy', 'Fiction', 'Drama', 'Action Movie', 'Adventure'];
+const genres = ['Comedies', 'Crime', 'Documentary', 'Dramas', 'Horror'];
 
 const years = [2023, 2024, 2021, 2000, 2020];
 
@@ -35,7 +35,7 @@ const getRandomInteger = (maxNumber: number) => {
 };
 
 const creatMovies = () => {
-  const movies: Array<Data> = [];
+  const movies = [];
   for (let i = 0; i < counter; i++) {
     const number = getRandomInteger(images.length - 1);
     const data: Data = {
@@ -43,18 +43,19 @@ const creatMovies = () => {
       image: images[number],
       movieTitle: movieTitles[number],
       video: video[number > 1 ? 0 : number],
+      genre: genres[number]
     };
     movies.push(data);
   }
   return movies;
 };
-const dataMovies: Array<object> = creatMovies();
+const dataMovies:Array<Data> = creatMovies();
 
 const createMovieDescription = () => {
   const index = getRandomInteger(images.length - 1);
   const dataMovie: DataMovies = {
-    id: nanoid(),
-    imageHeader: images[index],
+    index: nanoid(),
+    image: images[index],
     movieDescription: {
       genre: genres[index],
       screeningYear: years[index],
@@ -63,6 +64,6 @@ const createMovieDescription = () => {
   };
   return dataMovie;
 };
-const movieDescription: object = createMovieDescription();
+const movieDescription: DataMovies = createMovieDescription();
 
 export { dataMovies, movieDescription };

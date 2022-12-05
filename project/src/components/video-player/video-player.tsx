@@ -11,10 +11,10 @@ function VideoPlayer({ src }: VideoPlayerProps): JSX.Element {
     let isVideoPlayerMounted = true;
     let timeoutId = 0;
 
-    videoRef.current.addEventListener('loadeddata', () => {
+    videoRef.current?.addEventListener('loadeddata', () => {
       if (isVideoPlayerMounted) {
         timeoutId = setTimeout(() => {
-          videoRef.current.play();
+          videoRef.current?.play();
         }, 2000);
         videoRef.current.volume = 0.0;
       }

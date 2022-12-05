@@ -5,7 +5,7 @@ function RegistrationEntry(): JSX.Element {
   return (
     <li className="user-block__item">
       <Link to={AppRoute.Login} className="user-block__link">
-        Sign Out
+        Sign In
       </Link>
     </li>
   );

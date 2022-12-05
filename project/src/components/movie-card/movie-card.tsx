@@ -2,21 +2,21 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import VideoPlayer from '../video-player/video-player';
 import { AppRoute } from '../../const/const';
-import { Data } from '../../types/movies';
+import { Movie } from '../../types/movies';
 
 type MovieCardProps = {
-  movie: Data;
+  movie: Movie;
 };
 
 function MovieCard({ movie }: MovieCardProps): JSX.Element {
   const [isPlaying, setIsPlaying] = useState(false);
-  const { image, movieTitle, index, video } = movie;
+  const { previewImage, name, id, previewVideoLink } = movie;
 
   const changeValuePlayer = () => {
     setIsPlaying(!isPlaying);
   };
 
-  const path = `${AppRoute.Films}${index}`;
+  const path = `${AppRoute.Films}${id}`;
 
   return (
     <article className="small-film-card catalog__films-card">
@@ -26,13 +26,13 @@ function MovieCard({ movie }: MovieCardProps): JSX.Element {
           onMouseOver={changeValuePlayer}
           onMouseOut={changeValuePlayer}
         >
-          {isPlaying && <VideoPlayer src={video} />}
-          <img src={image} alt={movieTitle} width="280" height="175" />
+          {isPlaying && <VideoPlayer src={previewVideoLink} />}
+          <img src={previewImage} alt={name} width="280" height="175" />
         </div>
       </Link>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={path}>
-          {movieTitle}
+          {name}
         </Link>
       </h3>
     </article>
