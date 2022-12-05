@@ -20,6 +20,8 @@ function Player({
   const buttonRef = useRef<SVGUseElement | null>(null);
   const sizeButton = useRef<HTMLButtonElement | null>(null);
   const spanRef = useRef<HTMLButtonElement | null>(null);
+  const timeScaleRef = useRef<HTMLProgressElement | null>(null);
+  const timeIndicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let isVideoPlayerMounted = true;
@@ -44,6 +46,15 @@ function Player({
             videoRef.current?.removeAttribute('style');
             spanRef.current.innerText = 'Full screen';
           }
+        });
+        videoRef.current?.addEventListener('timeupdate', () => {
+          timeScaleRef.current.value = `${videoRef.current.currentTime}`;
+          timeIndicatorRef.current.style.left = `${videoRef.current.currentTime}%`;
+        });
+        videoRef.current?.addEventListener('ended', () => {
+          timeScaleRef.current.value = `0`;
+          timeIndicatorRef.current?.removeAttribute('style');
+          buttonRef.current?.setAttribute('xlink:href', '#play-s');
         });
       }
     });
@@ -81,9 +92,10 @@ function Player({
               className="player__progress"
               value="0"
               max="100"
+              ref={timeScaleRef}
             >
             </progress>
-            <div className="player__toggler" style={{ left: '0%' }}>
+            <div className="player__toggler" style={{ left: '0%' }} ref={timeIndicatorRef}>
               Toggler
             </div>
           </div>

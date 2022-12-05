@@ -5,7 +5,14 @@ type DetailsProps = {
 };
 
 function Details({ movie }: DetailsProps): JSX.Element {
-  const {director, starring, genre, released} = movie;
+  const {director, starring, genre, released, runTime} = movie;
+
+  const getRunTime = () => {
+    if(runTime <= 60) {
+      return `0h ${runTime - 60}m`;
+    }
+    return `1h ${runTime - 60}m`;
+  };
 
   return (
     <div className="film-card__text film-card__row">
@@ -25,7 +32,7 @@ function Details({ movie }: DetailsProps): JSX.Element {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">1h 39m</span>
+          <span className="film-card__details-value">{getRunTime()}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
