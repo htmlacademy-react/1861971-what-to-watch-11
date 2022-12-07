@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { Movie, Comment } from '../types/movies';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, AuthData, UserData } from '../const/const';
-import { loadMovies, loading, requireAuthorization, setError, loadComments } from './action';
+import { loadMovies, loading, requireAuthorization, setError, loadComments, loadSameMovies } from './action';
 import { store } from './store';
 import { saveToken } from '../services/token';
 
@@ -65,7 +65,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 
 export const fetchComments = createAsyncThunk<
   void,
-  undefined,
+  number,
   {
     dispatch: AppDispatch;
     state: State;
@@ -74,4 +74,17 @@ export const fetchComments = createAsyncThunk<
 >('data/fetchComments', async (filmId, { dispatch, extra: api }) => {
   const { data } = await api.get<Comment[]>(`${APIRoute.Comments}${filmId}`);
   dispatch(loadComments(data));
+});
+
+export const fetchSameMovies = createAsyncThunk<
+  void,
+  number,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/fetchSameMovies', async (filmId, { dispatch, extra: api }) => {
+  const { data } = await api.get<Movie[]>(`${APIRoute.Films}/${filmId}${APIRoute.Similar}`);
+  dispatch(loadSameMovies(data));
 });

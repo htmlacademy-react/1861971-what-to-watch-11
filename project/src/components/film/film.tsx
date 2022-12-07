@@ -3,15 +3,23 @@ import { useState } from 'react';
 import PlayButton from '../../components/play-button/play-button';
 import TabList from '../tab-list/tab-list';
 import MovieList from '../movie-list/movie-list';
-import { AppRoute, AttributeValue, Tab } from '../../const/const';
+import { AppRoute, AttributeValue, Tab, AuthorizationStatus } from '../../const/const';
 import { Movie } from '../../types/movies';
+import { useAppSelector } from '../../hooks/index';
+import { fetchSameMovies } from '../../store/api-actions';
+import { store } from '../../store/store';
+
+const MAX_NAMBER = 4;
 
 type FilmProps = {
   dataMovies: Array<Movie>;
 };
 
 function Film({ dataMovies }: FilmProps): JSX.Element {
+  const addReview = useAppSelector((state) => state.authorizationStatus);
+  const sameMovies = useAppSelector((state) => state.sameMovies);
   const [value, setValue] = useState ('');
+  const [addIndex, setIndex] = useState(0);
   const params = useParams();
   const dataMovie = dataMovies.find(
     (movie) => movie.id.toString() === params.id
@@ -22,12 +30,18 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
     return;
   }
 
+  const { backgroundImage, name, released, posterImage, id, genre } = dataMovie;
+
+  if(id !== addIndex) {
+    store.dispatch(fetchSameMovies(id));
+    setIndex(id);
+  }
+
   const getTabTitles = ({ target }: React.MouseEvent<HTMLInputElement>) => {
     const { name } = target;
     setValue (name);
   };
 
-  const { backgroundImage, name, released, posterImage, id, genre } = dataMovie;
   const path = `${AppRoute.Films}${id.toString()}${AppRoute.Review}`;
 
   return (
@@ -88,9 +102,11 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link to={path} className="btn film-card__button">
+                {addReview === AuthorizationStatus.Auth ?
+                  <Link to={path} className="btn film-card__button">
                   Add review
-                </Link>
+                  </Link> :
+                  ''}
               </div>
             </div>
           </div>
@@ -133,7 +149,7 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <MovieList dataMovies={dataMovies} genre={genre} counterNumber={0} />
+            <MovieList dataMovies={sameMovies} genre={genre} counterNumber={MAX_NAMBER} />
           </div>
         </section>
 

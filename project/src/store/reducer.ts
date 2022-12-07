@@ -15,11 +15,11 @@ import {
   loading,
   requireAuthorization,
   setError,
-  loadComments
+  loadComments,
+  loadSameMovies
 } from './action';
 import { Genres, AuthorizationStatus } from '../const/const';
 import { Movie, Comment } from '../types/movies';
-
 const {
   Comedies,
   Crime,
@@ -41,6 +41,7 @@ type InitalState = {
   authorizationStatus: string;
   error: string | null;
   comments: Array<Comment>;
+  sameMovies: Array<Movie>;
 };
 
 const initialState: InitalState = {
@@ -50,7 +51,8 @@ const initialState: InitalState = {
   isLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
-  comments: []
+  comments: [],
+  sameMovies: []
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -124,6 +126,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(loadSameMovies, (state, action) => {
+      state.sameMovies = action.payload;
     });
 });
 

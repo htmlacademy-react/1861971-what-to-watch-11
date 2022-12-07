@@ -14,13 +14,11 @@ function MovieList({
 }: MovieListProps): JSX.Element {
   const sortByGenre = () => {
     const MIN_NAMBER = 0;
-    const MAX_NAMBER = 4;
 
     if (genre === 'All') {
       return dataMovies.slice(0, Math.min(dataMovies.length, counterNumber));
     }
-    const movies = dataMovies.filter((movie) => movie.genre === genre);
-    return movies.slice(MIN_NAMBER, MAX_NAMBER);
+    return dataMovies.slice(MIN_NAMBER, counterNumber);
   };
 
   return (

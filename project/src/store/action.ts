@@ -19,4 +19,5 @@ export const requireAuthorization = createAction<AuthorizationStatus>(
   'user/requireAuthorization'
 );
 export const setError = createAction<string | null>('setError');
-export const loadComments = createAction<Comment[]>('data/Comments');
+export const loadComments = createAction<Comment[]>('data/loadComments');
+export const loadSameMovies = createAction<Movie[]>('data/loadSameMovies');
