@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import { Movie } from '../../types/movies';
 import { AppRoute } from '../../const/const';
@@ -10,6 +10,7 @@ type PlayProps = {
 function Player({
   dataMovies,
 }: PlayProps): JSX.Element {
+  const navigate = useNavigate();
   const params = useParams();
   const dataMovie = dataMovies.find(
     (movie) => movie.id.toString() === params.id
@@ -25,6 +26,12 @@ function Player({
 
   useEffect(() => {
     let isVideoPlayerMounted = true;
+
+    if (!dataMovie) {
+      navigate(AppRoute.Mistake);
+      return;
+    }
+
     videoRef.current?.addEventListener('loadedmetadata', () => {
       if (isVideoPlayerMounted) {
         videoRef.current.volume = 1.0;
@@ -52,7 +59,7 @@ function Player({
           timeIndicatorRef.current.style.left = `${videoRef.current.currentTime}%`;
         });
         videoRef.current?.addEventListener('ended', () => {
-          timeScaleRef.current.value = `0`;
+          timeScaleRef.current.value = '0';
           timeIndicatorRef.current?.removeAttribute('style');
           buttonRef.current?.setAttribute('xlink:href', '#play-s');
         });
@@ -65,7 +72,6 @@ function Player({
   });
 
   if (!dataMovie) {
-    document.location.href = `${AppRoute.Mistake}`;
     return;
   }
 

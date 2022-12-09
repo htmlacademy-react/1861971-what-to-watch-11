@@ -1,4 +1,5 @@
-import MovieList from '../../components/movie-list/movie-list';
+import { useState } from 'react';
+import MoviesList from '../../components/movie-list/movie-list';
 import Image from '../../components/image/image';
 import FilmCardInfo from '../../components/film-card-info/film-card-info';
 import UserAvatar from '../../components/user-avatar/user-avatar';
@@ -7,7 +8,7 @@ import ButtonShowMore from '../../components/button-show-more/button-show-more';
 import LoadingScreen from '../loading-screen/loading-screen';
 import ErrorMessage from '../../components/error-message/error-message';
 import { AuthorizationStatus, AttributeValue, Genres } from '../../const/const';
-import { DataMovies } from '../../types/movies';
+import { DataMovies, Movie } from '../../types/movies';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import {
   allGenres,
@@ -31,6 +32,9 @@ function MainPage({
   movieDescriptionAndTitle,
   authorizationStatus,
 }: MainPageProps): JSX.Element {
+  const [addMovies, setMovies] = useState(Array<Movie>);
+  console.log(addMovies);
+
   const { image, movieDescription, index } = movieDescriptionAndTitle;
   const {
     All,
@@ -49,12 +53,6 @@ function MainPage({
 
   const films = useAppSelector((state) => state);
   const { movies, genre, counter, isLoading } = films;
-
-  const getMovies = async (action) => {
-    const response = await fetch('https://11.react.pages.academy/wtw/films');
-    const dataMovies = await response.json();
-    dispatch(action(dataMovies));
-  };
 
   return (
     <>
@@ -101,7 +99,7 @@ function MainPage({
             >
               <a
                 className="catalog__genres-link"
-                onClick={() => getMovies(allGenres)}
+                onClick={() => dispatch(allGenres())}
               >
                 All genres
               </a>
@@ -113,7 +111,7 @@ function MainPage({
             >
               <a
                 className="catalog__genres-link"
-                onClick={() => getMovies(comediesGenres)}
+                onClick={() => dispatch(comediesGenres())}
               >
                 Comedies
               </a>
@@ -125,7 +123,7 @@ function MainPage({
             >
               <a
                 className="catalog__genres-link"
-                onClick={() => getMovies(crimeGenres)}
+                onClick={() => dispatch(crimeGenres())}
               >
                 Crime
               </a>
@@ -137,7 +135,7 @@ function MainPage({
             >
               <a
                 className="catalog__genres-link"
-                onClick={() => getMovies(documentaryGenres)}
+                onClick={() => dispatch(documentaryGenres())}
               >
                 Documentary
               </a>
@@ -149,7 +147,7 @@ function MainPage({
             >
               <a
                 className="catalog__genres-link"
-                onClick={() => getMovies(dramasGenres)}
+                onClick={() => dispatch(dramasGenres())}
               >
                 Dramas
               </a>
@@ -161,7 +159,7 @@ function MainPage({
             >
               <a
                 className="catalog__genres-link"
-                onClick={() => getMovies(horrorGenres)}
+                onClick={() => dispatch(horrorGenres())}
               >
                 Horror
               </a>
@@ -173,7 +171,7 @@ function MainPage({
             >
               <a
                 className="catalog__genres-link"
-                onClick={() => getMovies(kidsFamilyGenres)}
+                onClick={() => dispatch(kidsFamilyGenres())}
               >
                 Kids & Family
               </a>
@@ -185,7 +183,7 @@ function MainPage({
             >
               <a
                 className="catalog__genres-link"
-                onClick={() => getMovies(romanceGenres)}
+                onClick={() => dispatch(romanceGenres())}
               >
                 Romance
               </a>
@@ -197,7 +195,7 @@ function MainPage({
             >
               <a
                 className="catalog__genres-link"
-                onClick={() => getMovies(sciFiGenres)}
+                onClick={() => dispatch(sciFiGenres())}
               >
                 Sci-Fi
               </a>
@@ -209,7 +207,7 @@ function MainPage({
             >
               <a
                 className="catalog__genres-link"
-                onClick={() => getMovies(thrillersGenres)}
+                onClick={() => dispatch(thrillersGenres())}
               >
                 Thrillers
               </a>
@@ -217,15 +215,16 @@ function MainPage({
           </ul>
           <div className="catalog__films-list">
             {!isLoading && (
-              <MovieList
+              <MoviesList
                 dataMovies={movies}
-                genre={All}
+                genre={genre}
                 counterNumber={counter}
+                getNewMovies={(newFilms) => setMovies(newFilms)}
               />
             )}
             {isLoading && <LoadingScreen />}
           </div>
-          <ButtonShowMore />
+          <ButtonShowMore movieCounter={addMovies}/>
         </section>
 
         <footer className="page-footer">

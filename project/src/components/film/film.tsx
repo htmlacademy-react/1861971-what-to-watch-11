@@ -1,9 +1,9 @@
-import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import PlayButton from '../../components/play-button/play-button';
 import TabList from '../tab-list/tab-list';
-import MovieList from '../movie-list/movie-list';
-import { AppRoute, AttributeValue, Tab, AuthorizationStatus } from '../../const/const';
+import MoviesList from '../movie-list/movie-list';
+import { AppRoute, AttributeValue, Tab, AuthorizationStatus, Genres } from '../../const/const';
 import { Movie } from '../../types/movies';
 import { useAppSelector } from '../../hooks/index';
 import { fetchSameMovies } from '../../store/api-actions';
@@ -18,19 +18,26 @@ type FilmProps = {
 function Film({ dataMovies }: FilmProps): JSX.Element {
   const addReview = useAppSelector((state) => state.authorizationStatus);
   const sameMovies = useAppSelector((state) => state.sameMovies);
+  const navigate = useNavigate();
   const [value, setValue] = useState ('');
   const [addIndex, setIndex] = useState(0);
   const params = useParams();
-  const dataMovie = dataMovies.find(
+  const movieData = dataMovies.find(
     (movie) => movie.id.toString() === params.id
   );
 
-  if (!dataMovie) {
-    document.location.href = `${AppRoute.Mistake}`;
+  useEffect (() => {
+
+    if (!movieData) {
+      navigate(AppRoute.Mistake);
+    }
+  });
+
+  if (!movieData) {
     return;
   }
 
-  const { backgroundImage, name, released, posterImage, id, genre } = dataMovie;
+  const { backgroundImage, name, released, posterImage, id, genre } = movieData;
 
   if(id !== addIndex) {
     store.dispatch(fetchSameMovies(id));
@@ -42,7 +49,7 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
     setValue (name);
   };
 
-  const path = `${AppRoute.Films}${id.toString()}${AppRoute.Review}`;
+  const pathToReview = `${AppRoute.Films}${id.toString()}${AppRoute.Review}`;
 
   return (
     <>
@@ -103,7 +110,7 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
                   <span className="film-card__count">9</span>
                 </button>
                 {addReview === AuthorizationStatus.Auth ?
-                  <Link to={path} className="btn film-card__button">
+                  <Link to={pathToReview} className="btn film-card__button">
                   Add review
                   </Link> :
                   ''}
@@ -138,7 +145,7 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
                   </li>
                 </ul>
               </nav>
-              <TabList type={Tab[value]} movie = {dataMovie} />
+              <TabList type={Tab[value]} movie = {movieData} />
             </div>
           </div>
         </div>
@@ -149,7 +156,7 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <MovieList dataMovies={sameMovies} genre={genre} counterNumber={MAX_NAMBER} />
+            <MoviesList dataMovies={sameMovies} genre={Genres.SameMovies} counterNumber={MAX_NAMBER} />
           </div>
         </section>
 

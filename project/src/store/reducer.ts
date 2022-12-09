@@ -18,19 +18,9 @@ import {
   loadComments,
   loadSameMovies
 } from './action';
-import { Genres, AuthorizationStatus } from '../const/const';
+import { AuthorizationStatus } from '../const/const';
 import { Movie, Comment } from '../types/movies';
-const {
-  Comedies,
-  Crime,
-  Documentary,
-  Dramas,
-  Horror,
-  KidsFamily,
-  Romance,
-  SciFi,
-  Thrillers,
-} = Genres;
+
 const COUNTER = 8;
 
 type InitalState = {
@@ -57,56 +47,44 @@ const initialState: InitalState = {
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(allGenres, (state,action) => {
-      state.movies = action.payload;
+    .addCase(allGenres, (state) => {
       state.counter = COUNTER;
       state.genre = allGenres.toString();
     })
-    .addCase(comediesGenres, (state,action) => {
+    .addCase(comediesGenres, (state) => {
       state.counter = COUNTER;
-      state.movies = action.payload.filter((movie) => movie.genre === Comedies);
       state.genre = comediesGenres.toString();
     })
-    .addCase(crimeGenres, (state,action) => {
+    .addCase(crimeGenres, (state) => {
       state.counter = COUNTER;
-      state.movies = action.payload.filter((movie) => movie.genre === Crime);
       state.genre = crimeGenres.toString();
     })
-    .addCase(documentaryGenres, (state,action) => {
+    .addCase(documentaryGenres, (state) => {
       state.counter = COUNTER;
-      state.movies = action.payload.filter(
-        (movie) => movie.genre === Documentary
-      );
       state.genre = documentaryGenres.toString();
     })
-    .addCase(dramasGenres, (state,action) => {
+    .addCase(dramasGenres, (state) => {
       state.counter = COUNTER;
-      state.movies = action.payload.filter((movie) => movie.genre === Dramas);
       state.genre = dramasGenres.toString();
     })
-    .addCase(horrorGenres, (state,action) => {
+    .addCase(horrorGenres, (state) => {
       state.counter = COUNTER;
-      state.movies = action.payload.filter((movie) => movie.genre === Horror);
       state.genre = horrorGenres.toString();
     })
-    .addCase(kidsFamilyGenres, (state,action) => {
+    .addCase(kidsFamilyGenres, (state) => {
       state.counter = COUNTER;
-      state.movies = action.payload.filter((movie) => movie.genre === KidsFamily);
       state.genre = kidsFamilyGenres.toString();
     })
-    .addCase(romanceGenres, (state,action) => {
+    .addCase(romanceGenres, (state) => {
       state.counter = COUNTER;
-      state.movies = action.payload.filter((movie) => movie.genre === Romance);
       state.genre = romanceGenres.toString();
     })
-    .addCase(sciFiGenres, (state,action) => {
+    .addCase(sciFiGenres, (state) => {
       state.counter = COUNTER;
-      state.movies = action.payload.filter((movie) => movie.genre === SciFi);
       state.genre = sciFiGenres.toString();
     })
-    .addCase(thrillersGenres, (state,action) => {
+    .addCase(thrillersGenres, (state) => {
       state.counter = COUNTER;
-      state.movies = action.payload.filter((movie) => movie.genre === Thrillers);
       state.genre = thrillersGenres.toString();
     })
     .addCase(showMoreMovies, (state) => {

@@ -20,8 +20,8 @@ function App({ movieDescriptionAndTitle }: AppProps): JSX.Element {
   const { movies, authorizationStatus } = films;
 
   const { Root, Login, List, Films, Review, View, Mistake } = AppRoute;
-  const path1 = `:id${Review}`;
-  const path2 = `${View}:id`;
+  const pathToReview = `:id${Review}`;
+  const pathToPlayer = `${View}:id`;
 
   return (
     <BrowserRouter>
@@ -42,7 +42,7 @@ function App({ movieDescriptionAndTitle }: AppProps): JSX.Element {
           <Route path={Films}>
             <Route path=":id" element={<Film dataMovies={movies} />}></Route>
             <Route
-              path={path1}
+              path={pathToReview}
               element={
                 <PrivateRoute authorizationStatus={authorizationStatus}>
                   <AddReview dataMovies={movies} />
@@ -52,7 +52,7 @@ function App({ movieDescriptionAndTitle }: AppProps): JSX.Element {
             </Route>
           </Route>
           <Route
-            path={path2}
+            path={pathToPlayer}
             element={
               <Player
                 dataMovies={movies}

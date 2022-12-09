@@ -1,13 +1,18 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import { showMoreMovies } from '../../store/action';
+import { Movie } from '../../types/movies';
 
-function ButtonShowMore(): JSX.Element {
+type ButtonShowMoreProps = {
+  movieCounter: Array<Movie>;
+};
+
+function ButtonShowMore({movieCounter}: ButtonShowMoreProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const films = useAppSelector((state) => state);
   const { movies, counter } = films;
 
-  if (movies.length === 0 || counter >= movies.length) {
+  if (movieCounter.length === 0 || counter >= movieCounter.length) {
     return;
   }
 

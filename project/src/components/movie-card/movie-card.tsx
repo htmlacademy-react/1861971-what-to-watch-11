@@ -16,11 +16,11 @@ function MovieCard({ movie }: MovieCardProps): JSX.Element {
     setIsPlaying(!isPlaying);
   };
 
-  const path = `${AppRoute.Films}${id}`;
+  const pathToMovie = `${AppRoute.Films}${id}`;
 
   return (
     <article className="small-film-card catalog__films-card">
-      <Link to={path}>
+      <Link to={pathToMovie}>
         <div
           className="small-film-card__image"
           onMouseOver={changeValuePlayer}
@@ -31,7 +31,7 @@ function MovieCard({ movie }: MovieCardProps): JSX.Element {
         </div>
       </Link>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={path}>
+        <Link className="small-film-card__link" to={pathToMovie}>
           {name}
         </Link>
       </h3>

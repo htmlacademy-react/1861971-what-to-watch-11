@@ -1,8 +1,8 @@
-type ImegeProps = {
+type ImageProps = {
   image: string;
 };
 
-function Image({ image }: ImegeProps): JSX.Element {
+function Image({ image }: ImageProps): JSX.Element {
   return (
     <div className="film-card__bg">
       <img src={image} alt="The Grand Budapest Hotel" />

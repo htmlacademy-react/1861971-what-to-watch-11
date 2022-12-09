@@ -27,15 +27,16 @@ export enum Tab {
 
 export enum Genres {
   All = 'All',
-  Comedies = 'Comedies',
+  Comedies = 'Comedy',
   Crime = 'Crime',
   Documentary = 'Documentary',
-  Dramas = 'Dramas',
+  Dramas = 'Drama',
   Horror = 'Horror',
   KidsFamily = 'KidsFamily',
   Romance = 'Romance',
   SciFi = 'SciFi',
-  Thrillers = 'Thrillers',
+  Thrillers = 'Thriller',
+  SameMovies = 'sameMovies',
 }
 
 export enum APIRoute {

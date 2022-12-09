@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
 import { Movie } from '../../types/movies';
@@ -8,17 +9,31 @@ type AddReviewProps = {
 };
 
 function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
+  const navigate = useNavigate();
   const params = useParams();
   const [addGrade, setGrade] = useState('');
   const [addText, setText] = useState('');
+  const [isFormValid, setIsFormValid] = useState(true);
 
-  let meaning = true;
+  const dataMovie = dataMovies.find(
+    (movie) => movie.id.toString() === params.id
+  );
+
+  useEffect (() => {
+    if (!dataMovie) {
+      navigate(AppRoute.Mistake);
+    }
+  });
+
+  if (!dataMovie) {
+    return;
+  }
 
   const changeBoolean = () => {
     if (addGrade !== '' && (addText.length >= 50 || addText.length <= 400)) {
-      meaning = false;
+      setIsFormValid (false);
     } else {
-      meaning = true;
+      setIsFormValid (true);
     }
   };
 
@@ -37,17 +52,8 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
   const updateStateHandle = () => {
     setGrade('');
     setText('');
-    meaning = true;
+    setIsFormValid(true);
   };
-
-  const dataMovie = dataMovies.find(
-    (movie) => movie.id.toString() === params.id
-  );
-
-  if (!dataMovie) {
-    document.location.href = `${AppRoute.Mistake}`;
-    return;
-  }
 
   const { backgroundImage, posterImage, name } = dataMovie;
 
@@ -238,7 +244,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
               <button
                 className="add-review__btn"
                 type="submit"
-                disabled={meaning}
+                disabled={isFormValid}
                 onClick={updateStateHandle}
               >
                 Post
