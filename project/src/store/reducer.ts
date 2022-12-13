@@ -19,7 +19,7 @@ import {
   loadSameMovies
 } from './action';
 import { AuthorizationStatus } from '../const/const';
-import { Movie, Comment } from '../types/movies';
+import { Movie, Comment, PromoMovie } from '../types/movies';
 
 const COUNTER = 8;
 
@@ -32,6 +32,9 @@ type InitalState = {
   error: string | null;
   comments: Array<Comment>;
   sameMovies: Array<Movie>;
+  sameMoviesByGenre: Array<Movie>;
+  promoMovie: PromoMovie;
+
 };
 
 const initialState: InitalState = {
@@ -42,7 +45,9 @@ const initialState: InitalState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
   comments: [],
-  sameMovies: []
+  sameMovies: [],
+  sameMoviesByGenre: [],
+  promoMovie: {},
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -52,46 +57,57 @@ const reducer = createReducer(initialState, (builder) => {
       state.genre = allGenres.toString();
     })
     .addCase(comediesGenres, (state) => {
-      state.counter = COUNTER;
       state.genre = comediesGenres.toString();
+      state.sameMoviesByGenre = state.movies.filter((movie) => movie.genre === state.genre);
+      state.counter = COUNTER;
     })
     .addCase(crimeGenres, (state) => {
-      state.counter = COUNTER;
       state.genre = crimeGenres.toString();
+      state.sameMoviesByGenre = state.movies.filter((movie) => movie.genre === state.genre);
+      state.counter = COUNTER;
     })
     .addCase(documentaryGenres, (state) => {
-      state.counter = COUNTER;
       state.genre = documentaryGenres.toString();
+      state.sameMoviesByGenre = state.movies.filter((movie) => movie.genre === state.genre);
+      state.counter = COUNTER;
     })
     .addCase(dramasGenres, (state) => {
-      state.counter = COUNTER;
       state.genre = dramasGenres.toString();
+      state.sameMoviesByGenre = state.movies.filter((movie) => movie.genre === state.genre);
+      state.counter = COUNTER;
     })
     .addCase(horrorGenres, (state) => {
-      state.counter = COUNTER;
       state.genre = horrorGenres.toString();
+      state.sameMoviesByGenre = state.movies.filter((movie) => movie.genre === state.genre);
+      state.counter = COUNTER;
     })
     .addCase(kidsFamilyGenres, (state) => {
-      state.counter = COUNTER;
       state.genre = kidsFamilyGenres.toString();
+      state.sameMoviesByGenre = state.movies.filter((movie) => movie.genre === state.genre);
+      state.counter = COUNTER;
     })
     .addCase(romanceGenres, (state) => {
-      state.counter = COUNTER;
       state.genre = romanceGenres.toString();
+      state.sameMoviesByGenre = state.movies.filter((movie) => movie.genre === state.genre);
+      state.counter = COUNTER;
     })
     .addCase(sciFiGenres, (state) => {
-      state.counter = COUNTER;
       state.genre = sciFiGenres.toString();
+      state.sameMoviesByGenre = state.movies.filter((movie) => movie.genre === state.genre);
+      state.counter = COUNTER;
     })
     .addCase(thrillersGenres, (state) => {
-      state.counter = COUNTER;
       state.genre = thrillersGenres.toString();
+      state.sameMoviesByGenre = state.movies.filter((movie) => movie.genre === state.genre);
+      state.counter = COUNTER;
     })
     .addCase(showMoreMovies, (state) => {
       state.counter += COUNTER;
     })
     .addCase(loadMovies, (state, action) => {
-      state.movies = action.payload;
+      const {dataFilms, dataPromoMovie} = action.payload;
+      state.movies = dataFilms;
+      state.promoMovie = dataPromoMovie;
     })
     .addCase(loading, (state, action) => {
       state.isLoading = action.payload;

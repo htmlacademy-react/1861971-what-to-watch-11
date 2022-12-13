@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import MoviesList from '../../components/movie-list/movie-list';
 import Image from '../../components/image/image';
 import FilmCardInfo from '../../components/film-card-info/film-card-info';
@@ -8,7 +7,7 @@ import ButtonShowMore from '../../components/button-show-more/button-show-more';
 import LoadingScreen from '../loading-screen/loading-screen';
 import ErrorMessage from '../../components/error-message/error-message';
 import { AuthorizationStatus, AttributeValue, Genres } from '../../const/const';
-import { DataMovies, Movie } from '../../types/movies';
+import { PromoMovie } from '../../types/movies';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import {
   allGenres,
@@ -24,18 +23,16 @@ import {
 } from '../../store/action';
 
 type MainPageProps = {
-  movieDescriptionAndTitle: DataMovies;
+  promoMovie: PromoMovie;
   authorizationStatus: string;
 };
 
 function MainPage({
-  movieDescriptionAndTitle,
+  promoMovie,
   authorizationStatus,
 }: MainPageProps): JSX.Element {
-  const [addMovies, setMovies] = useState(Array<Movie>);
-  console.log(addMovies);
 
-  const { image, movieDescription, index } = movieDescriptionAndTitle;
+  const { backgroundImage } = promoMovie;
   const {
     All,
     Comedies,
@@ -52,12 +49,12 @@ function MainPage({
   const dispatch = useAppDispatch();
 
   const films = useAppSelector((state) => state);
-  const { movies, genre, counter, isLoading } = films;
+  const { movies, genre, counter, isLoading, sameMoviesByGenre } = films;
 
   return (
     <>
       <section className="film-card">
-        <Image image={image} />
+        <Image image={backgroundImage} />
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
@@ -80,11 +77,7 @@ function MainPage({
 
         <div className="film-card__wrap">
           <ErrorMessage />
-          <FilmCardInfo
-            image={image}
-            movieDescription={movieDescription}
-            index={index}
-          />
+          <FilmCardInfo />
         </div>
       </section>
       <div className="page-content">
@@ -219,12 +212,12 @@ function MainPage({
                 dataMovies={movies}
                 genre={genre}
                 counterNumber={counter}
-                getNewMovies={(newFilms) => setMovies(newFilms)}
+                dataSameMoviesByGenre={sameMoviesByGenre}
               />
             )}
             {isLoading && <LoadingScreen />}
           </div>
-          <ButtonShowMore movieCounter={addMovies}/>
+          <ButtonShowMore/>
         </section>
 
         <footer className="page-footer">

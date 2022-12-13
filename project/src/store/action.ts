@@ -13,7 +13,7 @@ export const romanceGenres = createAction('Romance');
 export const sciFiGenres = createAction('SciFi');
 export const thrillersGenres = createAction('Thriller');
 export const showMoreMovies = createAction('ShowMore');
-export const loadMovies = createAction<Movie[]>('data/loadMovies');
+export const loadMovies = createAction<object>('data/loadMovies');
 export const loading = createAction<boolean>('data/loading');
 export const requireAuthorization = createAction<AuthorizationStatus>(
   'user/requireAuthorization'

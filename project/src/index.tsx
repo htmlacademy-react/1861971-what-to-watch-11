@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
 import { store } from './store/store';
-import { movieDescription } from './mocks/films';
 import { fetchMovieAction, checkAuthAction } from './store/api-actions';
 
 store.dispatch(checkAuthAction());
@@ -16,7 +15,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App movieDescriptionAndTitle={movieDescription} />
+      <App/>
     </Provider>
   </React.StrictMode>
 );

@@ -61,3 +61,8 @@ export type UserData = {
 };
 
 export const TIMEOUT_SHOW_ERROR = 5000;
+
+export type FeedbackData = {
+  rating: number;
+  comment: string;
+};

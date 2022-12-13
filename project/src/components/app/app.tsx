@@ -8,16 +8,11 @@ import AddReview from '../add-review/add-review';
 import Player from '../player/player';
 import Error from '../error/error';
 import { AppRoute } from '../../const/const';
-import { DataMovies } from '../../types/movies';
 import { useAppSelector } from '../../hooks/index';
 
-type AppProps = {
-  movieDescriptionAndTitle: DataMovies;
-};
-
-function App({ movieDescriptionAndTitle }: AppProps): JSX.Element {
+function App(): JSX.Element {
   const films = useAppSelector((state) => state);
-  const { movies, authorizationStatus } = films;
+  const { movies, authorizationStatus, promoMovie } = films;
 
   const { Root, Login, List, Films, Review, View, Mistake } = AppRoute;
   const pathToReview = `:id${Review}`;
@@ -31,7 +26,7 @@ function App({ movieDescriptionAndTitle }: AppProps): JSX.Element {
             index
             element={
               <MainPage
-                movieDescriptionAndTitle={movieDescriptionAndTitle}
+                promoMovie={promoMovie}
                 authorizationStatus={authorizationStatus}
               />
             }

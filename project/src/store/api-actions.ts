@@ -1,11 +1,13 @@
+import { NavigateFunction } from 'react-router-dom';
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
-import { Movie, Comment } from '../types/movies';
-import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, AuthData, UserData } from '../const/const';
+import { Movie, Comment, PromoMovie } from '../types/movies';
+import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, AuthData, UserData, FeedbackData, AppRoute } from '../const/const';
 import { loadMovies, loading, requireAuthorization, setError, loadComments, loadSameMovies } from './action';
 import { store } from './store';
 import { saveToken } from '../services/token';
+import {createAPI} from '../services/api';
 
 export const clearErrorAction = createAsyncThunk(
   'clearError',
@@ -27,9 +29,13 @@ export const fetchMovieAction = createAsyncThunk<
   }
 >('data/fetchMovies', async (_arg, { dispatch, extra: api }) => {
   dispatch(loading(true));
-  const { data } = await api.get<Movie[]>(APIRoute.Films);
+  const responseMovies = await api.get<Movie[]>(APIRoute.Films);
+  const responsePromoMovie = await api.get<PromoMovie>(APIRoute.Promo);
   dispatch(loading(false));
-  dispatch(loadMovies(data));
+  dispatch(loadMovies({
+    dataFilms:responseMovies.data,
+    dataPromoMovie:responsePromoMovie.data
+  }));
 });
 
 export const checkAuthAction = createAsyncThunk<
@@ -60,6 +66,21 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+  },
+);
+
+export const loadingComment = createAsyncThunk(
+  'user/loadingComment',
+  async ({feedbackData, id, navigate}: {feedbackData:FeedbackData; id:number; navigate:NavigateFunction}, {dispatch}) => {
+    dispatch(loading(true));
+    try {
+      await createAPI().post<FeedbackData>(`${APIRoute.Comments}${id}`,feedbackData);
+      navigate(`${AppRoute.Films}${id}`);
+      dispatch(loading(false));
+    } catch {
+      dispatch(setError('Комментарий не загружен.Повторите загрузку заново'));
+      dispatch(loading(false));
+    }
   },
 );
 

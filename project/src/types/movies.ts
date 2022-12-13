@@ -1,13 +1,3 @@
-export type DataMovies = {
-  index: string;
-  image: string;
-  movieDescription: {
-    genre: string;
-    screeningYear: number;
-    movieTitle: string;
-  };
-};
-
 export type Movie = {
 id: number;
 name: string;
@@ -37,4 +27,24 @@ export type Comment = {
   id: number;
   name: string;
  };
+};
+
+export type PromoMovie = {
+  id: number;
+  name: string;
+  posterImage: string;
+  previewImage: string;
+  backgroundImage: string;
+  backgroundColor: string;
+  videoLink: string;
+  previewVideoLink: string;
+  description: string;
+  rating: number;
+  scoresCount: number;
+  director: string;
+  starring: [string];
+  runTime: number;
+  genre: string;
+  released: number;
+  isFavorite: boolean;
 };

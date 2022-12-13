@@ -6,7 +6,7 @@ type PlayButtonProps = {
 };
 
 function PlayButton({ id }: PlayButtonProps): JSX.Element {
-  const path = `${AppRoute.View}${id.toString()}`;
+  const path = `${AppRoute.View}${id}`;
 
   return (
     <button className="btn btn--play film-card__button" type="button">

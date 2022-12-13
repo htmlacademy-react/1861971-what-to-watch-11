@@ -156,7 +156,7 @@ function Film({ dataMovies }: FilmProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <MoviesList dataMovies={sameMovies} genre={Genres.SameMovies} counterNumber={MAX_NAMBER} />
+            <MoviesList dataMovies={sameMovies} genre={Genres.SameMovies} counterNumber={MAX_NAMBER} dataSameMoviesByGenre={[]}/>
           </div>
         </section>
 

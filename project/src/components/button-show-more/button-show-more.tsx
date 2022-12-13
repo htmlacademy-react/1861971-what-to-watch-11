@@ -1,18 +1,17 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import { showMoreMovies } from '../../store/action';
-import { Movie } from '../../types/movies';
 
-type ButtonShowMoreProps = {
-  movieCounter: Array<Movie>;
-};
-
-function ButtonShowMore({movieCounter}: ButtonShowMoreProps): JSX.Element {
+function ButtonShowMore(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const films = useAppSelector((state) => state);
-  const { movies, counter } = films;
+  const { movies, counter, sameMoviesByGenre, genre } = films;
 
-  if (movieCounter.length === 0 || counter >= movieCounter.length) {
+  if (genre === 'All' && (movies.length === 0 || counter >= movies.length)) {
+    return;
+  }
+
+  if (genre !== 'All' && (sameMoviesByGenre.length === 0 || counter >= sameMoviesByGenre.length)) {
     return;
   }
 

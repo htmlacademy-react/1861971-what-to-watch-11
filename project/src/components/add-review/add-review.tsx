@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link, useParams } from 'react-router-dom';
-import { AppRoute } from '../../const/const';
+import ErrorMessage from '../error-message/error-message';
+import { AppRoute, FeedbackData } from '../../const/const';
 import { Movie } from '../../types/movies';
+import { store } from '../../store/store';
+import { loadingComment } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks/index';
 
 type AddReviewProps = {
   dataMovies: Array<Movie>;
@@ -11,7 +15,7 @@ type AddReviewProps = {
 function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
   const navigate = useNavigate();
   const params = useParams();
-  const [addGrade, setGrade] = useState('');
+  const [addGrade, setGrade] = useState(0);
   const [addText, setText] = useState('');
   const [isFormValid, setIsFormValid] = useState(true);
 
@@ -25,12 +29,16 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
     }
   });
 
+  const lockIndicator = useAppSelector((state) => state.isLoading);
+
   if (!dataMovie) {
     return;
   }
 
+  const { backgroundImage, posterImage, name, id } = dataMovie;
+
   const changeBoolean = () => {
-    if (addGrade !== '' && (addText.length >= 50 || addText.length <= 400)) {
+    if (addGrade !== 0 && (addText.length >= 50 || addText.length <= 400)) {
       setIsFormValid (false);
     } else {
       setIsFormValid (true);
@@ -49,17 +57,29 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
     changeBoolean();
   };
 
-  const updateStateHandle = () => {
-    setGrade('');
-    setText('');
-    setIsFormValid(true);
+  const onSubmit = (feedbackData: FeedbackData) => {
+    store.dispatch(loadingComment({
+      feedbackData,
+      id,
+      navigate
+    }));
   };
 
-  const { backgroundImage, posterImage, name } = dataMovie;
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (addGrade !== 0 && addText !== '') {
+      onSubmit({
+        rating: addGrade,
+        comment: addText,
+      });
+    }
+  };
 
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
+        <ErrorMessage/>
         <div className="film-card__bg">
           <img src={backgroundImage} alt={name} />
         </div>
@@ -115,7 +135,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
       </div>
 
       <div className="add-review">
-        <form action="#" className="add-review__form">
+        <form action="#" className="add-review__form" onSubmit={handleSubmit}>
           <div className="rating">
             <div className="rating__stars" onClick={addNamber}>
               <input
@@ -124,6 +144,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
                 type="radio"
                 name="rating"
                 value="10"
+                disabled={lockIndicator}
               />
               <label className="rating__label" htmlFor="star-10">
                 Rating 10
@@ -135,6 +156,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
                 type="radio"
                 name="rating"
                 value="9"
+                disabled={lockIndicator}
               />
               <label className="rating__label" htmlFor="star-9">
                 Rating 9
@@ -146,6 +168,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
                 type="radio"
                 name="rating"
                 value="8"
+                disabled={lockIndicator}
               />
               <label className="rating__label" htmlFor="star-8">
                 Rating 8
@@ -157,6 +180,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
                 type="radio"
                 name="rating"
                 value="7"
+                disabled={lockIndicator}
               />
               <label className="rating__label" htmlFor="star-7">
                 Rating 7
@@ -168,6 +192,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
                 type="radio"
                 name="rating"
                 value="6"
+                disabled={lockIndicator}
               />
               <label className="rating__label" htmlFor="star-6">
                 Rating 6
@@ -179,6 +204,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
                 type="radio"
                 name="rating"
                 value="5"
+                disabled={lockIndicator}
               />
               <label className="rating__label" htmlFor="star-5">
                 Rating 5
@@ -190,6 +216,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
                 type="radio"
                 name="rating"
                 value="4"
+                disabled={lockIndicator}
               />
               <label className="rating__label" htmlFor="star-4">
                 Rating 4
@@ -201,6 +228,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
                 type="radio"
                 name="rating"
                 value="3"
+                disabled={lockIndicator}
               />
               <label className="rating__label" htmlFor="star-3">
                 Rating 3
@@ -212,6 +240,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
                 type="radio"
                 name="rating"
                 value="2"
+                disabled={lockIndicator}
               />
               <label className="rating__label" htmlFor="star-2">
                 Rating 2
@@ -223,6 +252,7 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
                 type="radio"
                 name="rating"
                 value="1"
+                disabled={lockIndicator}
               />
               <label className="rating__label" htmlFor="star-1">
                 Rating 1
@@ -238,14 +268,14 @@ function AddReview({ dataMovies }: AddReviewProps): JSX.Element {
               value={addText}
               onChange={addReview}
               placeholder="Review text"
+              disabled={lockIndicator}
             >
             </textarea>
             <div className="add-review__submit">
               <button
                 className="add-review__btn"
                 type="submit"
-                disabled={isFormValid}
-                onClick={updateStateHandle}
+                disabled={isFormValid || lockIndicator}
               >
                 Post
               </button>
