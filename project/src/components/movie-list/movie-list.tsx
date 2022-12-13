@@ -1,21 +1,40 @@
 import MovieCard from '../../components/movie-card/movie-card';
-
-type Data = {
-  index: number;
-  image: string;
-  movieTitle: string;
-};
+import { Movie } from '../../types/movies';
 
 type MovieListProps = {
-  dataMovies: Array<Data>;
+  dataMovies: Array<Movie>;
+  genre: string;
+  counterNumber: number;
+  dataSameMoviesByGenre: Array<Movie>;
 };
 
-function MovieList ({dataMovies}: MovieListProps): JSX.Element {
+function MoviesList({
+  dataMovies,
+  genre,
+  counterNumber,
+  dataSameMoviesByGenre
+}: MovieListProps): JSX.Element {
+
+  const sortByGenre = () => {
+    const MIN_NUMBER = 0;
+
+    switch (genre) {
+      case 'All':
+        return dataMovies.slice(0, Math.min(dataMovies.length, counterNumber));
+      case 'sameMovies':
+        return dataMovies.slice(MIN_NUMBER, counterNumber);
+      default:
+        return dataSameMoviesByGenre.slice(0, Math.min(dataSameMoviesByGenre.length, counterNumber));
+    }
+  };
+
   return (
     <>
-      {dataMovies.map ((movie) => <MovieCard key = {movie.index.toString()} id = {movie.index.toString()} movie = {movie} />)}
+      {sortByGenre().map((movie) => (
+        <MovieCard key={movie.id.toString()} movie={movie} />
+      ))}
     </>
   );
 }
 
-export default MovieList;
+export default MoviesList;

@@ -1,32 +1,31 @@
 import PlayButton from '../../components/play-button/play-button';
+import { useAppSelector } from '../../hooks/index';
 
-type FilmCardInfoProps = {
-  id: number;
-  movieCover: string;
-  movieDescription: {
-    genre: string;
-    screeningYear: number;
-    movieTitle: string;
-  };
-};
+function FilmCardInfo(): JSX.Element {
 
-function FilmCardInfo ({movieCover, movieDescription, id}: FilmCardInfoProps): JSX.Element {
-  const {genre, screeningYear, movieTitle} = movieDescription;
+  const promoMovie = useAppSelector((state) => state.promoMovie);
+  const {posterImage, name, genre, released, id} = promoMovie;
+
   return (
     <div className="film-card__info">
       <div className="film-card__poster">
-        <img src = {movieCover} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+        <img
+          src={posterImage}
+          alt="The Grand Budapest Hotel poster"
+          width="218"
+          height="327"
+        />
       </div>
 
       <div className="film-card__desc">
-        <h2 className="film-card__title">{movieTitle}</h2>
+        <h2 className="film-card__title">{name}</h2>
         <p className="film-card__meta">
           <span className="film-card__genre">{genre}</span>
-          <span className="film-card__year">{screeningYear}</span>
+          <span className="film-card__year">{released}</span>
         </p>
 
         <div className="film-card__buttons">
-          <PlayButton id = {id} />
+          <PlayButton id={id} />
           <button className="btn btn--list film-card__button" type="button">
             <svg viewBox="0 0 19 20" width="19" height="20">
               <use xlinkHref="#add"></use>

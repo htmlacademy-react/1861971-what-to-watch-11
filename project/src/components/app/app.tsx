@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainPage from '../../pages/main-page/main-page';
 import MyList from '../../components/my-list/my-list';
 import SignIn from '../sign-in/sign-in';
@@ -6,56 +7,55 @@ import PrivateRoute from '../private-route/private-route';
 import AddReview from '../add-review/add-review';
 import Player from '../player/player';
 import Error from '../error/error';
-import { AppRoute, AuthorizationStatus } from '../../const/const';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { AppRoute } from '../../const/const';
+import { useAppSelector } from '../../hooks/index';
 
-type Data = {
-  index: number;
-  image: string;
-  movieTitle: string;
-};
+function App(): JSX.Element {
+  const films = useAppSelector((state) => state);
+  const { movies, authorizationStatus, promoMovie } = films;
 
-type AppProps = {
-  dataMovies:Array<Data>;
-  movieDescriptionAndTitle:{
-    id: number;
-    imageHeader: string;
-    movieDescription: {
-      genre: string;
-      screeningYear: number;
-      movieTitle: string;
-    };
-  };
-};
+  const { Root, Login, List, Films, Review, View, Mistake } = AppRoute;
+  const pathToReview = `:id${Review}`;
+  const pathToPlayer = `${View}:id`;
 
-function App({dataMovies, movieDescriptionAndTitle}: AppProps): JSX.Element {
-  const {Root,Login,List,Films,Review,View,Mistake} = AppRoute;
-  const path1 = `:id${Review}`;
-  const path2 = `${View}:id`;
-  const status = AuthorizationStatus.Auth;
   return (
     <BrowserRouter>
       <Routes>
-        <Route path = {Root}>
-          <Route index element={<MainPage dataMovies = {dataMovies} movieDescriptionAndTitle = {movieDescriptionAndTitle} authorizationStatus = {status}/>}>
+        <Route path={Root}>
+          <Route
+            index
+            element={
+              <MainPage
+                promoMovie={promoMovie}
+                authorizationStatus={authorizationStatus}
+              />
+            }
+          >
           </Route>
-          <Route path = {Login} element={<SignIn />}></Route>
-          <Route path = {List} element={<MyList />}></Route>
-          <Route path = {Films}>
-            <Route path = ':id' element={<Film dataMovies={dataMovies} />}></Route>
-            <Route path ={path1}
+          <Route path={Login} element={<SignIn />}></Route>
+          <Route path={List} element={<MyList />}></Route>
+          <Route path={Films}>
+            <Route path=":id" element={<Film dataMovies={movies} />}></Route>
+            <Route
+              path={pathToReview}
               element={
-                <PrivateRoute
-                  authorizationStatus = {status}
-                >
-                  <AddReview dataMovies = {dataMovies} />
+                <PrivateRoute authorizationStatus={authorizationStatus}>
+                  <AddReview dataMovies={movies} />
                 </PrivateRoute>
               }
             >
             </Route>
           </Route>
-          <Route path = {path2} element={<Player />}></Route>
-          <Route path = {Mistake} element={<Error />}/>
+          <Route
+            path={pathToPlayer}
+            element={
+              <Player
+                dataMovies={movies}
+              />
+            }
+          >
+          </Route>
+          <Route path={Mistake} element={<Error />} />
         </Route>
       </Routes>
     </BrowserRouter>
